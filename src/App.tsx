@@ -30,6 +30,7 @@ function App() {
   const [gridData, setGridData] = useState<number[][]>(initialGridData);
 
   const editorRef = useRef<SVGSVGElement>(null);
+  const noteId = useRef(0);
 
   const handleClickEditor = (e: React.MouseEvent) => {
     const $target = e.target as HTMLDivElement;
@@ -51,6 +52,55 @@ function App() {
     );
 
     console.log(`x: ${coordX}, y: ${coordY}`);
+  };
+
+  const translateToGridXY = (xy: "x" | "y", coord: number) =>
+    Math.floor(
+      coord /
+        Math.floor(xy === "x" ? laneWidth / beatCount : laneHeight / noteCount)
+    );
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    const $target = e.target as HTMLDivElement;
+    const { x: offsetX, y: offsetY } = $target.getBoundingClientRect();
+
+    const startCoordX = e.clientX - offsetX;
+    const startCoordY = e.clientY - offsetY;
+    const startGridX = translateToGridXY("x", startCoordX);
+    const startGridY = translateToGridXY("y", startCoordY);
+
+    const drawRect = (e: MouseEvent) => {
+      const mouseCoordX = e.clientX - offsetX;
+      const processingGridX = translateToGridXY("x", mouseCoordX);
+
+      const width = processingGridX - startGridX;
+      console.log(width);
+    };
+    const stopDrawRect = (e: MouseEvent) => {
+      const mouseCoordX = e.clientX - offsetX;
+      const endGridX = translateToGridXY("x", mouseCoordX);
+
+      console.log(
+        `start X: ${startGridX}, start Y: ${startGridY}, end X: ${endGridX}`
+      );
+
+      setGridData((gridData) =>
+        gridData.map((rowData, rowIdx) =>
+          rowData.map((colData, colIdx) => {
+            if (rowIdx === startGridY && colIdx === startGridX) {
+              if (gridData[rowIdx][colIdx] > 0) return 0;
+              else return endGridX - startGridX + 1;
+            } else return colData;
+          })
+        )
+      );
+
+      $target.removeEventListener("mousemove", drawRect);
+      $target.removeEventListener("mouseup", stopDrawRect);
+    };
+
+    $target.addEventListener("mousemove", drawRect);
+    $target.addEventListener("mouseup", stopDrawRect);
   };
 
   return (
@@ -79,14 +129,21 @@ function App() {
           ))}
           {gridData.map((rowData, rowIdx) =>
             rowData.map((colData, colIdx) =>
-              colData ? <NoteSvg coord={{ x: colIdx, y: rowIdx }} /> : null
+              colData ? (
+                <NoteSvg
+                  key={noteId.current++}
+                  coord={{ x: colIdx, y: rowIdx }}
+                  length={colData}
+                />
+              ) : null
             )
           )}
         </svg>
 
         <div
+          className="mouse_observer"
           style={{ position: "absolute", inset: 0, cursor: "pointer" }}
-          onClick={handleClickEditor}
+          onMouseDown={handleMouseDown}
         ></div>
       </div>
     </div>
@@ -100,15 +157,22 @@ interface NoteSvgProps {
     x: number;
     y: number;
   };
+  length: number;
 }
 
-const NoteSvg = ({ coord }: NoteSvgProps) => {
+const NoteSvg = ({ coord, length }: NoteSvgProps) => {
   const xPos = gridBorderWidth * (coord.x + 1) + noteWidth * coord.x;
   const yPos = gridBorderWidth * (coord.y + 1) + noteHeight * coord.y;
 
   return (
     <svg x={xPos} y={yPos}>
-      <rect x={0} y={0} width={noteWidth} height={noteHeight} fill="#6dcbff" />
+      <rect
+        x={0}
+        y={0}
+        width={noteWidth * length + gridBorderWidth * (length - 1)}
+        height={noteHeight}
+        fill="#6dcbff"
+      />
     </svg>
   );
 };
