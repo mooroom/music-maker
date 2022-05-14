@@ -69,13 +69,30 @@ function App() {
     const startGridX = translateToGridXY("x", startCoordX);
     const startGridY = translateToGridXY("y", startCoordY);
 
+    // get collidables
+    const originRow = gridData[startGridY];
+    const collidables: null | { origin: number }[] = new Array(beatCount).fill(
+      null
+    );
+
+    originRow.forEach((value, idx) => {
+      if (value === 0) return;
+
+      while (value !== 0) {
+        collidables[value + idx - 1] = { origin: idx };
+        value -= 1;
+      }
+    });
+    console.log("collidables: ", collidables);
+
     const drawRect = (e: MouseEvent) => {
       const mouseCoordX = e.clientX - offsetX;
       const processingGridX = translateToGridXY("x", mouseCoordX);
 
       const width = processingGridX - startGridX;
-      console.log(width);
+      // console.log(width);
     };
+
     const stopDrawRect = (e: MouseEvent) => {
       const mouseCoordX = e.clientX - offsetX;
       const endGridX = translateToGridXY("x", mouseCoordX);
@@ -84,16 +101,18 @@ function App() {
         `start X: ${startGridX}, start Y: ${startGridY}, end X: ${endGridX}`
       );
 
-      setGridData((gridData) =>
-        gridData.map((rowData, rowIdx) =>
-          rowData.map((colData, colIdx) => {
-            if (rowIdx === startGridY && colIdx === startGridX) {
-              if (gridData[rowIdx][colIdx] > 0) return 0;
-              else return endGridX - startGridX + 1;
-            } else return colData;
-          })
-        )
-      );
+      const gridDataCopy = JSON.parse(JSON.stringify(gridData));
+
+      // remove collidables
+      for (let i = startGridX; i <= endGridX; i++) {
+        if (collidables[i]) {
+          gridDataCopy[startGridY][collidables[i].origin] = 0;
+        }
+      }
+
+      gridDataCopy[startGridY][startGridX] = endGridX - startGridX + 1;
+
+      setGridData(gridDataCopy);
 
       $target.removeEventListener("mousemove", drawRect);
       $target.removeEventListener("mouseup", stopDrawRect);
