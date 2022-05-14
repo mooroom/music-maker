@@ -104,6 +104,7 @@ function App() {
       const gridDataCopy = JSON.parse(JSON.stringify(gridData));
       const noteLength = endGridX - startGridX + 1;
 
+      // remove collidables
       if (noteLength === 1) {
         if (collidables[endGridX]) {
           gridDataCopy[startGridY][collidables[endGridX].origin] = 0;
@@ -171,6 +172,12 @@ function App() {
           style={{ position: "absolute", inset: 0, cursor: "pointer" }}
           onMouseDown={handleMouseDown}
         ></div>
+        <div
+          className="playhead_container"
+          style={{ position: "absolute", inset: 0 }}
+        >
+          <div className="playhead"></div>
+        </div>
       </div>
     </div>
   );

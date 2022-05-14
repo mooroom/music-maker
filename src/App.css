@@ -11,3 +11,22 @@
 .editor {
   background: #eee;
 }
+
+.playhead {
+  width: 2px;
+  background: red;
+  height: 100%;
+  animation-duration: 5s;
+  animation-name: move;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+@keyframes move {
+  from {
+    transform: translateX(0px);
+  }
+  to {
+    transform: translate(454px);
+  }
+}
