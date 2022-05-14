@@ -102,15 +102,22 @@ function App() {
       );
 
       const gridDataCopy = JSON.parse(JSON.stringify(gridData));
+      const noteLength = endGridX - startGridX + 1;
 
-      // remove collidables
-      for (let i = startGridX; i <= endGridX; i++) {
-        if (collidables[i]) {
-          gridDataCopy[startGridY][collidables[i].origin] = 0;
+      if (noteLength === 1) {
+        if (collidables[endGridX]) {
+          gridDataCopy[startGridY][collidables[endGridX].origin] = 0;
+        } else {
+          gridDataCopy[startGridY][startGridX] = 1;
         }
+      } else {
+        for (let i = startGridX; i <= endGridX; i++) {
+          if (collidables[i]) {
+            gridDataCopy[startGridY][collidables[i].origin] = 0;
+          }
+        }
+        gridDataCopy[startGridY][startGridX] = noteLength;
       }
-
-      gridDataCopy[startGridY][startGridX] = endGridX - startGridX + 1;
 
       setGridData(gridDataCopy);
 
@@ -150,7 +157,7 @@ function App() {
             rowData.map((colData, colIdx) =>
               colData ? (
                 <NoteSvg
-                  key={noteId.current++}
+                  key={`${rowIdx}${colIdx}`}
                   coord={{ x: colIdx, y: rowIdx }}
                   length={colData}
                 />
