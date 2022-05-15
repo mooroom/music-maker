@@ -1,6 +1,7 @@
-import React, { useRef, useState } from "react";
-import logo from "./logo.svg";
+import React, { useEffect, useRef, useState } from "react";
 import "./App.css";
+import { Synth, SynthOptions } from "tone";
+import * as Tone from "tone";
 
 const noteCount = 7;
 const beatCount = 8;
@@ -24,9 +25,60 @@ const gridVertical = Array.from(
 );
 
 const initialGridData = Array(noteCount).fill(Array(beatCount).fill(0));
+const initialNotes = ["C4", "D4", "E4", "F4", "G4", "A4", "B4"];
+const initialTempo = "8n";
+const initialBpm = 120;
 
 function App() {
+  const [synths, setSynths] = useState<Synth<SynthOptions>[]>([]);
   const [gridData, setGridData] = useState<number[][]>(initialGridData);
+  const [started, setStarted] = useState(false);
+  const [playing, setPlaying] = useState(false);
+
+  const gridDataRef = useRef<number[][]>(initialGridData);
+  const beatRef = useRef(0);
+
+  useEffect(() => {
+    const newSynths = Array.from({ length: initialNotes.length }, () =>
+      new Synth().toDestination()
+    );
+    setSynths(newSynths);
+  }, []);
+
+  const configLoop = () => {
+    const repeat = (time: number) => {
+      synths.forEach((synth, index) => {
+        if (gridData[index][beatRef.current]) {
+          synth.triggerAttackRelease(
+            initialNotes[index],
+            Tone.Time(initialTempo).toSeconds() *
+              gridData[index][beatRef.current],
+            time
+          );
+        }
+      });
+      beatRef.current = (beatRef.current + 1) % 8;
+    };
+
+    Tone.Transport.bpm.value = initialBpm;
+    Tone.Transport.scheduleRepeat(repeat, initialTempo);
+  };
+
+  const onPlay = () => {
+    if (!started) {
+      Tone.start();
+      configLoop();
+      setStarted(true);
+    }
+
+    if (!playing) {
+      Tone.Transport.start();
+      setPlaying(true);
+    } else {
+      Tone.Transport.stop();
+      setPlaying(false);
+    }
+  };
 
   const translateToGridXY = (xy: "x" | "y", coord: number) =>
     Math.floor(
@@ -103,6 +155,7 @@ function App() {
 
   return (
     <div className="App">
+      <button onClick={onPlay}>{playing ? "stop" : "play"}</button>
       <div style={{ position: "relative", display: "flex" }}>
         <svg className="editor" width={laneWidth} height={laneHeight}>
           {gridHorizontal.map((v, i) => (
