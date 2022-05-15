@@ -48,11 +48,11 @@ function App() {
   const configLoop = () => {
     const repeat = (time: number) => {
       synths.forEach((synth, index) => {
-        if (gridData[index][beatRef.current]) {
+        if (gridDataRef.current[index][beatRef.current]) {
           synth.triggerAttackRelease(
             initialNotes[index],
             Tone.Time(initialTempo).toSeconds() *
-              gridData[index][beatRef.current],
+              gridDataRef.current[index][beatRef.current],
             time
           );
         }
@@ -96,7 +96,7 @@ function App() {
     const startGridY = translateToGridXY("y", startCoordY);
 
     // get collidables
-    const originRow = gridData[startGridY];
+    const originRow = gridDataRef.current[startGridY];
     const collidables: null | { origin: number }[] = new Array(beatCount).fill(
       null
     );
@@ -124,26 +124,27 @@ function App() {
         `start X: ${startGridX}, start Y: ${startGridY}, end X: ${endGridX}`
       );
 
-      const gridDataCopy = JSON.parse(JSON.stringify(gridData));
+      const gridDataRefCopy = JSON.parse(JSON.stringify(gridDataRef.current));
       const noteLength = endGridX - startGridX + 1;
 
       // remove collidables
       if (noteLength === 1) {
         if (collidables[endGridX]) {
-          gridDataCopy[startGridY][collidables[endGridX].origin] = 0;
+          gridDataRefCopy[startGridY][collidables[endGridX].origin] = 0;
         } else {
-          gridDataCopy[startGridY][startGridX] = 1;
+          gridDataRefCopy[startGridY][startGridX] = 1;
         }
       } else {
         for (let i = startGridX; i <= endGridX; i++) {
           if (collidables[i]) {
-            gridDataCopy[startGridY][collidables[i].origin] = 0;
+            gridDataRefCopy[startGridY][collidables[i].origin] = 0;
           }
         }
-        gridDataCopy[startGridY][startGridX] = noteLength;
+        gridDataRefCopy[startGridY][startGridX] = noteLength;
       }
 
-      setGridData(gridDataCopy);
+      gridDataRef.current = gridDataRefCopy;
+      setGridData(gridDataRefCopy);
 
       $target.removeEventListener("mousemove", drawRect);
       $target.removeEventListener("mouseup", stopDrawRect);
