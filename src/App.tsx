@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import logo from "./logo.svg";
 import "./App.css";
 
-const noteCount = 3;
+const noteCount = 7;
 const beatCount = 8;
 
 const noteWidth = 50;
@@ -24,35 +24,9 @@ const gridVertical = Array.from(
 );
 
 const initialGridData = Array(noteCount).fill(Array(beatCount).fill(0));
-console.log(initialGridData);
 
 function App() {
   const [gridData, setGridData] = useState<number[][]>(initialGridData);
-
-  const editorRef = useRef<SVGSVGElement>(null);
-  const noteId = useRef(0);
-
-  const handleClickEditor = (e: React.MouseEvent) => {
-    const $target = e.target as HTMLDivElement;
-    const { x: offsetX, y: offsetY } = $target.getBoundingClientRect();
-    const gridX = e.clientX - offsetX;
-    const gridY = e.clientY - offsetY;
-
-    const coordX = Math.floor(gridX / Math.floor(laneWidth / beatCount));
-    const coordY = Math.floor(gridY / Math.floor(laneHeight / noteCount));
-
-    setGridData(
-      gridData.map((rowData, rowIdx) =>
-        rowData.map((colData, colIdx) => {
-          if (coordX === colIdx && coordY === rowIdx) {
-            return colData ? 0 : 1;
-          } else return colData;
-        })
-      )
-    );
-
-    console.log(`x: ${coordX}, y: ${coordY}`);
-  };
 
   const translateToGridXY = (xy: "x" | "y", coord: number) =>
     Math.floor(
@@ -88,9 +62,6 @@ function App() {
     const drawRect = (e: MouseEvent) => {
       const mouseCoordX = e.clientX - offsetX;
       const processingGridX = translateToGridXY("x", mouseCoordX);
-
-      const width = processingGridX - startGridX;
-      // console.log(width);
     };
 
     const stopDrawRect = (e: MouseEvent) => {
@@ -172,12 +143,12 @@ function App() {
           style={{ position: "absolute", inset: 0, cursor: "pointer" }}
           onMouseDown={handleMouseDown}
         ></div>
-        <div
+        {/* <div
           className="playhead_container"
           style={{ position: "absolute", inset: 0 }}
         >
           <div className="playhead"></div>
-        </div>
+        </div> */}
       </div>
     </div>
   );
