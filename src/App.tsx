@@ -4,7 +4,7 @@ import { Synth, SynthOptions } from "tone";
 import * as Tone from "tone";
 
 const noteCount = 7;
-const beatCount = 8;
+const beatCount = 16;
 
 const noteWidth = 50;
 const noteHeight = 30;
@@ -57,7 +57,7 @@ function App() {
           );
         }
       });
-      beatRef.current = (beatRef.current + 1) % 8;
+      beatRef.current = (beatRef.current + 1) % beatCount;
     };
 
     Tone.Transport.bpm.value = initialBpm;
