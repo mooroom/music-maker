@@ -4,7 +4,7 @@ import { Synth, SynthOptions } from "tone";
 import * as Tone from "tone";
 
 const noteCount = 7;
-const beatCount = 16;
+const beatCount = 8;
 
 const noteWidth = 50;
 const noteHeight = 30;
@@ -34,6 +34,7 @@ function App() {
   const [gridData, setGridData] = useState<number[][]>(initialGridData);
   const [started, setStarted] = useState(false);
   const [playing, setPlaying] = useState(false);
+  const [bpm, setBpm] = useState(120);
 
   const gridDataRef = useRef<number[][]>(initialGridData);
   const beatRef = useRef(0);
@@ -44,6 +45,10 @@ function App() {
     );
     setSynths(newSynths);
   }, []);
+
+  useEffect(() => {
+    Tone.Transport.bpm.value = bpm;
+  }, [bpm]);
 
   const configLoop = () => {
     const repeat = (time: number) => {
@@ -60,7 +65,7 @@ function App() {
       beatRef.current = (beatRef.current + 1) % beatCount;
     };
 
-    Tone.Transport.bpm.value = initialBpm;
+    Tone.Transport.bpm.value = bpm;
     Tone.Transport.scheduleRepeat(repeat, initialTempo);
   };
 
@@ -157,6 +162,11 @@ function App() {
   return (
     <div className="App">
       <button onClick={onPlay}>{playing ? "stop" : "play"}</button>
+      <input
+        type="number"
+        onChange={(e) => setBpm(Number(e.target.value))}
+        value={bpm}
+      />
       <div style={{ position: "relative", display: "flex" }}>
         <svg className="editor" width={laneWidth} height={laneHeight}>
           {gridHorizontal.map((v, i) => (
