@@ -29,39 +29,57 @@ const initialNotes = ["C4", "D4", "E4", "F4", "G4", "A4", "B4"];
 const initialTempo = "8n";
 const initialBpm = 120;
 
+export type Layer = {
+  id: number;
+  type: "melody" | "beat" | "chord";
+  sequence: number[][];
+  instruments: Synth<SynthOptions>[];
+};
+
 function App() {
-  const [synths, setSynths] = useState<Synth<SynthOptions>[]>([]);
-  const [gridData, setGridData] = useState<number[][]>(initialGridData);
+  // const [synths, setSynths] = useState<Synth<SynthOptions>[]>([]);
+  // const [gridData, setGridData] = useState<number[][]>(initialGridData);
+  const [layers, setLayers] = useState<Layer[]>([]);
   const [started, setStarted] = useState(false);
   const [playing, setPlaying] = useState(false);
   const [bpm, setBpm] = useState(120);
 
-  const gridDataRef = useRef<number[][]>(initialGridData);
+  // const gridDataRef = useRef<number[][]>(initialGridData);
   const beatRef = useRef(0);
-
-  useEffect(() => {
-    const newSynths = Array.from({ length: initialNotes.length }, () =>
-      new Synth().toDestination()
-    );
-    setSynths(newSynths);
-  }, []);
+  const LayerId = useRef(0);
 
   useEffect(() => {
     Tone.Transport.bpm.value = bpm;
   }, [bpm]);
 
+  const addLayer = () => {
+    const newLayer: Layer = {
+      id: LayerId.current++,
+      type: "melody",
+      sequence: Array(noteCount).fill(Array(beatCount).fill(0)),
+      instruments: Array.from({ length: initialNotes.length }, () =>
+        new Synth().toDestination()
+      ),
+    };
+    setLayers([...layers, newLayer]);
+  };
+
   const configLoop = () => {
     const repeat = (time: number) => {
-      synths.forEach((synth, index) => {
-        if (gridDataRef.current[index][beatRef.current]) {
-          synth.triggerAttackRelease(
-            initialNotes[index],
-            Tone.Time(initialTempo).toSeconds() *
-              gridDataRef.current[index][beatRef.current],
-            time
-          );
-        }
-      });
+      for (const layer of layers) {
+        const { instruments, sequence } = layer;
+        instruments.forEach((instrument, index) => {
+          if (sequence[index][beatRef.current]) {
+            instrument.triggerAttackRelease(
+              initialNotes[index],
+              Tone.Time(initialTempo).toSeconds() *
+                sequence[index][beatRef.current],
+              time
+            );
+          }
+        });
+      }
+
       beatRef.current = (beatRef.current + 1) % beatCount;
     };
 
