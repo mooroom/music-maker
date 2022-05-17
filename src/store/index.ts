@@ -1,8 +1,17 @@
 import { configureStore } from "@reduxjs/toolkit";
+import { layersSlice } from "./layers";
+import { settingsSlice } from "./settings";
 
-const store = configureStore({
-  reducer: {},
+export const store = configureStore({
+  reducer: {
+    settings: settingsSlice.reducer,
+    layers: layersSlice.reducer,
+  },
   devTools: process.env.NODE_ENV !== "production",
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

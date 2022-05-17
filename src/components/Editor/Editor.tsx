@@ -1,3 +1,8 @@
+import React from "react";
+import { useDispatch } from "react-redux";
+import { updateSequence } from "../../store/layers";
+import { Layer } from "../../store/layers/types";
+
 const noteCount = 7;
 const beatCount = 8;
 
@@ -26,10 +31,13 @@ const translateToGridXY = (xy: "x" | "y", coord: number) =>
   );
 
 interface Props {
-  gridDataRef: React.MutableRefObject<number[][]>;
+  layerData: Layer;
 }
 
-export default function Editor({ gridDataRef }: Props) {
+export default function Editor({ layerData }: Props) {
+  const { id: layerId, sequence } = layerData;
+  const dispatch = useDispatch();
+
   const handleMouseDown = (e: React.MouseEvent) => {
     const $target = e.target as HTMLDivElement;
     const { x: offsetX, y: offsetY } = $target.getBoundingClientRect();
@@ -40,7 +48,7 @@ export default function Editor({ gridDataRef }: Props) {
     const startGridY = translateToGridXY("y", startCoordY);
 
     // get collidables
-    const originRow = gridDataRef.current[startGridY];
+    const originRow = sequence[startGridY];
     const collidables: null | { origin: number }[] = new Array(beatCount).fill(
       null
     );
@@ -68,26 +76,26 @@ export default function Editor({ gridDataRef }: Props) {
         `start X: ${startGridX}, start Y: ${startGridY}, end X: ${endGridX}`
       );
 
-      const gridDataRefCopy = JSON.parse(JSON.stringify(gridDataRef.current));
+      const sequenceCopy = JSON.parse(JSON.stringify(sequence));
       const noteLength = endGridX - startGridX + 1;
 
       // remove collidables
       if (noteLength === 1) {
         if (collidables[endGridX]) {
-          gridDataRefCopy[startGridY][collidables[endGridX].origin] = 0;
+          sequenceCopy[startGridY][collidables[endGridX].origin] = 0;
         } else {
-          gridDataRefCopy[startGridY][startGridX] = 1;
+          sequenceCopy[startGridY][startGridX] = 1;
         }
       } else {
         for (let i = startGridX; i <= endGridX; i++) {
           if (collidables[i]) {
-            gridDataRefCopy[startGridY][collidables[i].origin] = 0;
+            sequenceCopy[startGridY][collidables[i].origin] = 0;
           }
         }
-        gridDataRefCopy[startGridY][startGridX] = noteLength;
+        sequenceCopy[startGridY][startGridX] = noteLength;
       }
 
-      gridDataRef.current = gridDataRefCopy;
+      dispatch(updateSequence({ layerId, newSequence: sequenceCopy }));
 
       $target.removeEventListener("mousemove", drawRect);
       $target.removeEventListener("mouseup", stopDrawRect);
@@ -120,7 +128,7 @@ export default function Editor({ gridDataRef }: Props) {
             y={0}
           />
         ))}
-        {gridDataRef.current.map((rowData, rowIdx) =>
+        {sequence.map((rowData, rowIdx) =>
           rowData.map((colData, colIdx) =>
             colData ? (
               <NoteSvg
