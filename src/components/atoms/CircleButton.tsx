@@ -4,17 +4,24 @@ import { primary } from "../../constants/color";
 
 interface Props extends ButtonStyleProps {
   children: ReactNode;
+  onClick: () => void;
   style?: React.CSSProperties;
 }
 
 export default function CircleButton({
   children,
+  onClick,
   background = primary,
   size = "medium",
   style,
 }: Props) {
   return (
-    <ButtonContainer background={background} size={size} style={style}>
+    <ButtonContainer
+      onClick={onClick}
+      background={background}
+      size={size}
+      style={style}
+    >
       {children}
     </ButtonContainer>
   );

@@ -10,6 +10,7 @@ import { addLayer } from "./store/layers";
 import { cloneDeep } from "lodash";
 import TopBar from "./components/TopBar";
 import BottomBar from "./components/BottomBar";
+import { setStart, setStop, togglePlay } from "./store/controls";
 
 const noteCount = 7;
 const beatCount = 8;
@@ -23,23 +24,20 @@ const initialNotes = ["C4", "D4", "E4", "F4", "G4", "A4", "B4"];
 const initialTempo = "8n";
 
 function App() {
-  // const [synths, setSynths] = useState<Synth<SynthOptions>[]>([]);
-  // const [gridData, setGridData] = useState<number[][]>(initialGridData);
-  const { layers: layersState, settings } = useSelector(
-    (state: RootState) => state
-  );
+  const {
+    layers: layersState,
+    settings,
+    controls,
+  } = useSelector((state: RootState) => state);
   const dispatch = useDispatch();
-
-  const [started, setStarted] = useState(false);
-  const [playing, setPlaying] = useState(false);
   const [bpm, setBpm] = useState(120);
 
-  // const gridDataRef = useRef<number[][]>(initialGridData);
   const beatRef = useRef(0);
   const LayerId = useRef(0);
   const sequencesRef = useRef<number[][][]>([]);
 
   useEffect(() => {
+    Tone.start();
     Tone.Transport.bpm.value = bpm;
   }, [bpm]);
 
@@ -87,31 +85,28 @@ function App() {
   };
 
   const onPlay = () => {
-    if (!started) {
-      Tone.start();
+    if (!controls.started) {
       configLoop();
-      setStarted(true);
+      dispatch(setStart());
     }
 
-    if (!playing) {
-      Tone.Transport.start();
-      setPlaying(true);
-    } else {
-      Tone.Transport.stop();
-      console.log(Tone.Transport.state);
-      setPlaying(false);
-    }
+    controls.playing ? Tone.Transport.pause() : Tone.Transport.start();
+    dispatch(togglePlay());
+  };
+
+  const onStop = () => {
+    Tone.Transport.dispose();
+    dispatch(setStop());
   };
 
   return (
     <div className="App">
       <TopBar />
-      <button onClick={onPlay}>{playing ? "stop" : "play"}</button>
       <button onClick={handleAddLayer}>add layer</button>
       {layersState.layers.map((layer) => (
         <Editor key={layer.id} layerData={layer} />
       ))}
-      <BottomBar />
+      <BottomBar onPlay={onPlay} onStop={onStop} />
     </div>
   );
 }

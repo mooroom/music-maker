@@ -12,16 +12,15 @@ export const controlsSlice = createSlice({
   reducers: {
     setStart: (state) => {
       state.started = true;
-      state.playing = true;
     },
     setStop: (state) => {
       state.started = false;
       state.playing = false;
     },
-    setPause: (state) => {
-      state.playing = false;
+    togglePlay: (state) => {
+      state.playing = !state.playing;
     },
   },
 });
 
-export const { setPause, setStart, setStop } = controlsSlice.actions;
+export const { togglePlay, setStart, setStop } = controlsSlice.actions;
