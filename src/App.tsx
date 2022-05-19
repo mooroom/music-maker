@@ -8,6 +8,7 @@ import { RootState } from "./store";
 import { Layer } from "./store/layers/types";
 import { addLayer } from "./store/layers";
 import { cloneDeep } from "lodash";
+import TopBar from "./components/TopBar";
 
 const noteCount = 7;
 const beatCount = 8;
@@ -101,6 +102,7 @@ function App() {
 
   return (
     <div className="App">
+      <TopBar />
       <button onClick={onPlay}>{playing ? "stop" : "play"}</button>
       <button onClick={handleAddLayer}>add layer</button>
       {layersState.layers.map((layer) => (
