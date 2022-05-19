@@ -9,6 +9,7 @@ import { Layer } from "./store/layers/types";
 import { addLayer } from "./store/layers";
 import { cloneDeep } from "lodash";
 import TopBar from "./components/TopBar";
+import BottomBar from "./components/BottomBar";
 
 const noteCount = 7;
 const beatCount = 8;
@@ -108,6 +109,7 @@ function App() {
       {layersState.layers.map((layer) => (
         <Editor key={layer.id} layerData={layer} />
       ))}
+      <BottomBar />
     </div>
   );
 }

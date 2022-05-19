@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { primary } from "../../constants/color";
 
 export const TopBarBlock = styled.div`
   position: absolute;
@@ -6,7 +7,7 @@ export const TopBarBlock = styled.div`
   left: 0px;
   width: 100%;
   height: 60px;
-  background: #00dcb3;
+  background: ${primary};
 `;
 
 export const TopBarLogo = styled.div`
