@@ -1,6 +1,5 @@
 import React, { ReactNode } from "react";
 import styled, { css } from "styled-components";
-import { Style } from "util";
 import { primary } from "../../constants/color";
 
 interface Props extends ButtonStyleProps {

@@ -64,6 +64,7 @@ function App() {
   const configLoop = () => {
     const repeat = (time: number) => {
       for (const layer of layersState.layers) {
+        console.log("Time: ", Tone.Transport.getSecondsAtTime(time));
         const { instruments, sequence } = layer;
         instruments.forEach((instrument, index) => {
           const currentSeq =
@@ -97,6 +98,7 @@ function App() {
       setPlaying(true);
     } else {
       Tone.Transport.stop();
+      console.log(Tone.Transport.state);
       setPlaying(false);
     }
   };
