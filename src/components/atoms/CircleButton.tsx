@@ -1,18 +1,21 @@
 import React, { ReactNode } from "react";
 import styled, { css } from "styled-components";
+import { Style } from "util";
 import { primary } from "../../constants/color";
 
 interface Props extends ButtonStyleProps {
   children: ReactNode;
+  style?: React.CSSProperties;
 }
 
 export default function CircleButton({
   children,
   background = primary,
   size = "medium",
+  style,
 }: Props) {
   return (
-    <ButtonContainer background={background} size={size}>
+    <ButtonContainer background={background} size={size} style={style}>
       {children}
     </ButtonContainer>
   );
@@ -27,15 +30,15 @@ const sizeStyle = css<ButtonStyleProps>`
   ${(props) =>
     props.size === "large" &&
     css`
-      width: 40px;
-      height: 40px;
+      width: 50px;
+      height: 50px;
     `}
 
   ${(props) =>
     props.size === "medium" &&
     css`
-      width: 30px;
-      height: 30px;
+      width: 40px;
+      height: 40px;
     `}
 
     ${(props) =>
@@ -51,6 +54,7 @@ export const ButtonContainer = styled.button<ButtonStyleProps>`
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
   background: ${(props) => props.background};
 
   ${sizeStyle}
