@@ -31,18 +31,17 @@ function App() {
   } = useSelector((state: RootState) => state);
   const dispatch = useDispatch();
   const [bpm, setBpm] = useState(120);
+  const [eventId, setEventId] = useState<number | null>(null);
 
   const beatRef = useRef(0);
   const LayerId = useRef(0);
   const sequencesRef = useRef<number[][][]>([]);
 
   useEffect(() => {
-    Tone.start();
     Tone.Transport.bpm.value = bpm;
   }, [bpm]);
 
   useEffect(() => {
-    console.log("change!");
     const newSequences = layersState.layers.map((layer) => layer.sequence);
     sequencesRef.current = cloneDeep(newSequences);
   }, [layersState]);
@@ -60,9 +59,10 @@ function App() {
   };
 
   const configLoop = () => {
-    const repeat = (time: number) => {
+    console.log(1);
+    function repeat(time: number) {
+      console.log(3);
       for (const layer of layersState.layers) {
-        console.log("Time: ", Tone.Transport.getSecondsAtTime(time));
         const { instruments, sequence } = layer;
         instruments.forEach((instrument, index) => {
           const currentSeq =
@@ -78,24 +78,42 @@ function App() {
       }
 
       beatRef.current = (beatRef.current + 1) % beatCount;
-    };
+    }
 
+    console.log(2);
     Tone.Transport.bpm.value = bpm;
-    Tone.Transport.scheduleRepeat(repeat, initialTempo);
+    const eid = Tone.Transport.scheduleRepeat(repeat, initialTempo);
+    console.log(`eid: ${eid}`);
+    setEventId(eid);
   };
 
   const onPlay = () => {
     if (!controls.started) {
+      Tone.start();
+      console.log("configLoop!");
       configLoop();
       dispatch(setStart());
     }
 
-    controls.playing ? Tone.Transport.pause() : Tone.Transport.start();
+    if (controls.playing) {
+      console.log("pause!");
+      Tone.Transport.pause();
+    } else {
+      console.log("play!");
+      Tone.Transport.start();
+    }
+
     dispatch(togglePlay());
   };
 
   const onStop = () => {
-    Tone.Transport.dispose();
+    console.log("stop!");
+    Tone.Transport.stop();
+    if (eventId !== null) {
+      console.log(`clear: ${eventId}`);
+      Tone.Transport.clear(eventId);
+    }
+    beatRef.current = 0;
     dispatch(setStop());
   };
 
