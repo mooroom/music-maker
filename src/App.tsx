@@ -11,6 +11,7 @@ import { cloneDeep } from "lodash";
 import TopBar from "./components/TopBar";
 import BottomBar from "./components/BottomBar";
 import { setStart, setStop, togglePlay } from "./store/controls";
+import styled from "styled-components";
 
 const noteCount = 7;
 const beatCount = 8;
@@ -120,13 +121,27 @@ function App() {
   return (
     <div className="App">
       <TopBar />
-      <button onClick={handleAddLayer}>add layer</button>
-      {layersState.layers.map((layer) => (
-        <Editor key={layer.id} layerData={layer} />
-      ))}
+      <Container>
+        <button onClick={handleAddLayer}>add layer</button>
+        {layersState.layers.map((layer) => (
+          <Editor key={layer.id} layerData={layer} />
+        ))}
+      </Container>
+
       <BottomBar onPlay={onPlay} onStop={onStop} />
     </div>
   );
 }
 
 export default App;
+
+const Container = styled.div`
+  position: absolute;
+  top: 60px;
+  left: 0;
+  width: 100%;
+  height: calc(100% - 140px);
+  margin: 0 auto;
+  padding: 40px;
+  overflow-y: scroll;
+`;
