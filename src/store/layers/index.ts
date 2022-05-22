@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Layer, LayersState, UpdateSequencePayload } from "./types";
+import { LayerType, LayersState, UpdateSequencePayload } from "./types";
 
 const initialState: LayersState = {
   layers: [],
@@ -9,7 +9,7 @@ export const layersSlice = createSlice({
   name: "layers",
   initialState,
   reducers: {
-    addLayer: (state, action: PayloadAction<Layer>) => {
+    addLayer: (state, action: PayloadAction<LayerType>) => {
       state.layers.push(action.payload);
     },
     updateSequence: (state, action: PayloadAction<UpdateSequencePayload>) => {

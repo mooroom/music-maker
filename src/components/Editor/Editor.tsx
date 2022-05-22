@@ -1,7 +1,7 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { updateSequence } from "../../store/layers";
-import { Layer } from "../../store/layers/types";
+import { LayerType } from "../../store/layers/types";
 
 const noteCount = 7;
 const beatCount = 8;
@@ -31,7 +31,7 @@ const translateToGridXY = (xy: "x" | "y", coord: number) =>
   );
 
 interface Props {
-  layerData: Layer;
+  layerData: LayerType;
 }
 
 export default function Editor({ layerData }: Props) {

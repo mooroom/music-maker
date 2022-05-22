@@ -1,6 +1,6 @@
 import { Synth, SynthOptions } from "tone";
 
-export interface Layer {
+export interface LayerType {
   id: number;
   type: "melody" | "beat" | "chord";
   sequence: number[][];
@@ -8,7 +8,7 @@ export interface Layer {
 }
 
 export interface LayersState {
-  layers: Layer[];
+  layers: LayerType[];
 }
 
 export interface UpdateSequencePayload {

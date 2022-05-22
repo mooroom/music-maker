@@ -1,17 +1,17 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./App.css";
-import { Synth, SynthOptions } from "tone";
+import { Synth } from "tone";
 import * as Tone from "tone";
-import Editor from "./components/Editor";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "./store";
-import { Layer } from "./store/layers/types";
+import { LayerType } from "./store/layers/types";
 import { addLayer } from "./store/layers";
 import { cloneDeep } from "lodash";
 import TopBar from "./components/TopBar";
 import BottomBar from "./components/BottomBar";
 import { setStart, setStop, togglePlay } from "./store/controls";
 import styled from "styled-components";
+import Layer from "./components/Layer";
 
 const noteCount = 7;
 const beatCount = 8;
@@ -48,7 +48,7 @@ function App() {
   }, [layersState]);
 
   const handleAddLayer = () => {
-    const newLayer: Layer = {
+    const newLayer: LayerType = {
       id: LayerId.current++,
       type: "melody",
       sequence: Array(noteCount).fill(Array(beatCount).fill(0)),
@@ -122,10 +122,11 @@ function App() {
     <div className="App">
       <TopBar />
       <Container>
-        <button onClick={handleAddLayer}>add layer</button>
+        {/* <button onClick={handleAddLayer}>add layer</button>
         {layersState.layers.map((layer) => (
           <Editor key={layer.id} layerData={layer} />
-        ))}
+        ))} */}
+        <Layer />
       </Container>
 
       <BottomBar onPlay={onPlay} onStop={onStop} />
