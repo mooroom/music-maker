@@ -44,13 +44,28 @@ export default function Layer() {
   return (
     <S.LayerBlock ref={layerRef}>
       <S.WidgetContainer>
-        <S.EditorBlock height={452} overflow="scroll">
-          <S.LaneContainer></S.LaneContainer>
+        <S.EditorBlock height={452}>
+          <S.LaneContainer width={60} height={452}>
+            {notes.map((note, i) => (
+              <svg width="100%" height={30} x={0} y={30 * i}>
+                <rect width="100%" height={28} fill="red" x={0} y={2} />
+                <text
+                  x={30}
+                  y={20}
+                  fontSize={12}
+                  textAnchor="middle"
+                  fill="white"
+                >
+                  {note}
+                </text>
+              </svg>
+            ))}
+          </S.LaneContainer>
           <S.GridContainer>
             {gridYLines.map((v, i) => (
               <rect
                 key={v + i}
-                fill="#eee"
+                fill="#000"
                 width="100%"
                 height={borderWidth}
                 x={0}
@@ -60,7 +75,7 @@ export default function Layer() {
             {gridXLines.map((v, i) => (
               <rect
                 key={v + i}
-                fill="#eee"
+                fill="#000"
                 width={borderWidth}
                 height="100%"
                 x={v}
@@ -69,6 +84,7 @@ export default function Layer() {
             ))}
           </S.GridContainer>
           <S.LabelContainer></S.LabelContainer>
+          <g></g>
         </S.EditorBlock>
       </S.WidgetContainer>
     </S.LayerBlock>
