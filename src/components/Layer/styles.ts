@@ -5,6 +5,7 @@ export const LayerBlock = styled.div`
   width: 100%;
   overflow: hidden;
   background: rgb(102, 102, 102);
+  margin-bottom: 50px;
 `;
 
 export const WidgetContainer = styled.div`
@@ -22,8 +23,16 @@ export const GridContainer = styled.svg``;
 
 export const LabelContainer = styled.svg``;
 
-export const MouseObserver = styled.div`
+export const MouseObserverBlock = styled.div`
   position: absolute;
   cursor: pointer;
+  left: 60px;
+  width: calc(100% - 60px);
+  height: 452px;
   bottom: 0;
+`;
+
+export const MouseObserver = styled.div`
+  width: 100%;
+  height: 100%;
 `;

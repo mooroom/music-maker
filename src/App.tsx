@@ -13,8 +13,8 @@ import { setStart, setStop, togglePlay } from "./store/controls";
 import styled from "styled-components";
 import Layer from "./components/Layer";
 
-const noteCount = 7;
-const beatCount = 8;
+const noteCount = 15;
+const beatCount = 32;
 
 const noteWidth = 50;
 const noteHeight = 30;
