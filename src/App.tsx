@@ -126,10 +126,12 @@ function App() {
         {layersState.layers.map((layer) => (
           <Editor key={layer.id} layerData={layer} />
         ))} */}
-        <Layer />
+        {layersState.layers.map((layer) => (
+          <Layer key={layer.id} layerData={layer} />
+        ))}
       </Container>
 
-      <BottomBar onPlay={onPlay} onStop={onStop} />
+      <BottomBar onPlay={onPlay} onStop={onStop} onAddLayer={handleAddLayer} />
     </div>
   );
 }

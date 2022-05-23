@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import * as S from "./styles";
 import { Scale } from "@tonaljs/tonal";
 import { StyledComponent } from "styled-components";
+import { LayerType } from "../../store/layers/types";
+import { useDispatch } from "react-redux";
 
 const C4_MAJOR = Scale.get("C4 major").notes;
 const C5_MAJOR = Scale.get("C5 major").notes;
@@ -16,7 +18,14 @@ const borderWidth = 2;
 const gridYLines = Array.from({ length: rows + 1 }, (_, i) => 30 * i);
 const gridXLines = Array.from({ length: cols + 1 });
 
-export default function Layer() {
+interface Props {
+  layerData: LayerType;
+}
+
+export default function Layer({ layerData }: Props) {
+  const { id: layerId, sequence } = layerData;
+  const dispatch = useDispatch();
+
   const [gridXLines, setGridXLines] = useState<number[]>([]);
 
   const layerRef = useRef<HTMLDivElement>(null);
@@ -26,7 +35,6 @@ export default function Layer() {
     if (layer) {
       const { width: layerWidth } = layer.getBoundingClientRect();
       const colWidth = Math.max(20, (layerWidth - 60) / cols);
-      console.log(colWidth);
       const newXLines = Array.from(
         { length: cols + 1 },
         (_, i) => colWidth * i + 60
@@ -86,6 +94,7 @@ export default function Layer() {
           <S.LabelContainer></S.LabelContainer>
           <g></g>
         </S.EditorBlock>
+        <S.MouseObserver></S.MouseObserver>
       </S.WidgetContainer>
     </S.LayerBlock>
   );

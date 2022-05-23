@@ -21,3 +21,9 @@ export const LaneContainer = styled.svg``;
 export const GridContainer = styled.svg``;
 
 export const LabelContainer = styled.svg``;
+
+export const MouseObserver = styled.div`
+  position: absolute;
+  cursor: pointer;
+  bottom: 0;
+`;
