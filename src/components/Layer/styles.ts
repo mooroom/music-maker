@@ -4,8 +4,15 @@ export const LayerBlock = styled.div`
   position: relative;
   width: 100%;
   overflow: hidden;
-  background: rgb(102, 102, 102);
+  /* background: rgb(102, 102, 102); */
+  background: #eee;
   margin-bottom: 50px;
+`;
+
+export const LayerTitle = styled.h1`
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 15px;
 `;
 
 export const WidgetContainer = styled.div`
@@ -15,7 +22,9 @@ export const WidgetContainer = styled.div`
 
 export const OverviewBlock = styled.div``;
 
-export const EditorBlock = styled.svg``;
+export const EditorBlock = styled.svg`
+  background: #056950;
+`;
 
 export const LaneContainer = styled.svg``;
 

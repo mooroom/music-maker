@@ -124,13 +124,13 @@ export default function Layer({ layerData }: Props) {
     <S.LayerBlock ref={layerRef}>
       <S.WidgetContainer>
         <S.OverviewBlock>
-          <h1>{layerData.id}</h1>
+          <S.LayerTitle>레이어 {layerId}</S.LayerTitle>
         </S.OverviewBlock>
         <S.EditorBlock height={452}>
           <S.LaneContainer width={60} height={452}>
             {notes.map((note, i) => (
               <svg width="100%" height={30} x={0} y={30 * i}>
-                <rect width="100%" height={28} fill="red" x={0} y={2} />
+                <rect width="100%" height={28} fill="#00ad82" x={0} y={2} />
                 <text
                   x={30}
                   y={20}
@@ -147,7 +147,7 @@ export default function Layer({ layerData }: Props) {
             {gridYLines.map((v, i) => (
               <rect
                 key={v + i}
-                fill="#000"
+                fill="#eee"
                 width="100%"
                 height={borderWidth}
                 x={0}
@@ -157,7 +157,7 @@ export default function Layer({ layerData }: Props) {
             {gridXLines.map((v, i) => (
               <rect
                 key={v + i}
-                fill="#000"
+                fill="#eee"
                 width={borderWidth}
                 height="100%"
                 x={v}
@@ -209,7 +209,7 @@ const NoteSvg = ({ coord, length, noteWidth }: NoteSvgProps) => {
         y={2}
         width={noteWidth * length - borderWidth}
         height={noteHeight - borderWidth}
-        fill="#6dcbff"
+        fill="#02f5b8"
       />
     </svg>
   );
