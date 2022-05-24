@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { updateSequence } from "../../store/layers";
 import Editor from "./Editor";
 import { ROWS, COLS } from "../../constants/grid";
+import Header from "./Header";
 
 interface Props {
   layerData: LayerType;
@@ -104,9 +105,8 @@ export default function Layer({ layerData }: Props) {
   return (
     <S.LayerBlock ref={layerRef}>
       <S.WidgetContainer>
-        <S.OverviewBlock>
-          <S.LayerTitle>레이어 {layerId}</S.LayerTitle>
-        </S.OverviewBlock>
+        <Header id={layerId} />
+        <S.OverviewBlock></S.OverviewBlock>
         <Editor colWidth={colWidth} sequence={sequence} />
         <S.MouseObserverBlock>
           <S.MouseObserver onMouseDown={handleMouseDown} />

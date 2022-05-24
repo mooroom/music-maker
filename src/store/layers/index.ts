@@ -12,6 +12,11 @@ export const layersSlice = createSlice({
     addLayer: (state, action: PayloadAction<LayerType>) => {
       state.layers.push(action.payload);
     },
+    removeLayer: (state, action) => {
+      state.layers = state.layers.filter(
+        (layer) => layer.id !== action.payload
+      );
+    },
     updateSequence: (state, action: PayloadAction<UpdateSequencePayload>) => {
       const { layerId, newSequence } = action.payload;
       const layer = state.layers.find((layer) => layer.id === layerId);
@@ -20,4 +25,4 @@ export const layersSlice = createSlice({
   },
 });
 
-export const { addLayer, updateSequence } = layersSlice.actions;
+export const { addLayer, removeLayer, updateSequence } = layersSlice.actions;

@@ -49,7 +49,7 @@ export default function Editor({ colWidth, sequence }: Props) {
       </S.GridContainer>
       <S.LabelContainer width={60} height={452}>
         {NOTES_C_MAJOR.map((note, i) => (
-          <svg width="100%" height={30} x={0} y={30 * i}>
+          <svg key={note} width="100%" height={30} x={0} y={30 * i}>
             <rect width="100%" height={28} fill="#00ad82" x={0} y={2} />
             <text x={30} y={20} fontSize={12} textAnchor="middle" fill="white">
               {note}

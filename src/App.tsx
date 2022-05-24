@@ -119,10 +119,10 @@ function App() {
     <div className="App">
       <TopBar />
       <Container>
-        {/* <button onClick={handleAddLayer}>add layer</button>
-        {layersState.layers.map((layer) => (
-          <Editor key={layer.id} layerData={layer} />
-        ))} */}
+        {!layersState.layers.length && (
+          <EmptyMsg>레이어를 추가해주세요</EmptyMsg>
+        )}
+
         {layersState.layers.map((layer) => (
           <Layer key={layer.id} layerData={layer} />
         ))}
@@ -144,4 +144,14 @@ const Container = styled.div`
   margin: 0 auto;
   padding: 40px;
   overflow-y: scroll;
+`;
+
+const EmptyMsg = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 30px;
+  color: #999;
 `;
