@@ -12,17 +12,17 @@ import BottomBar from "./components/BottomBar";
 import { setStart, setStop, togglePlay } from "./store/controls";
 import styled from "styled-components";
 import Layer from "./components/Layer";
+import { Scale } from "@tonaljs/tonal";
 
 const noteCount = 15;
 const beatCount = 32;
 
-const noteWidth = 50;
-const noteHeight = 30;
-
-const gridBorderWidth = 6;
-
-const initialNotes = ["C4", "D4", "E4", "F4", "G4", "A4", "B4"];
 const initialTempo = "8n";
+
+const C4_MAJOR = Scale.get("C4 major").notes;
+const C5_MAJOR = Scale.get("C5 major").notes;
+const C6_MAJOR = Scale.get("C6 major").notes;
+const initialNotes = [...C4_MAJOR, ...C5_MAJOR, "C6"];
 
 function App() {
   const {
@@ -52,7 +52,7 @@ function App() {
       id: LayerId.current++,
       type: "melody",
       sequence: Array(noteCount).fill(Array(beatCount).fill(0)),
-      instruments: Array.from({ length: initialNotes.length }, () =>
+      instruments: Array.from({ length: 15 }, () =>
         new Synth().toDestination()
       ),
     };
@@ -60,9 +60,7 @@ function App() {
   };
 
   const configLoop = () => {
-    console.log(1);
     function repeat(time: number) {
-      console.log(3);
       for (const layer of layersState.layers) {
         const { instruments, sequence } = layer;
         instruments.forEach((instrument, index) => {
@@ -81,7 +79,6 @@ function App() {
       beatRef.current = (beatRef.current + 1) % beatCount;
     }
 
-    console.log(2);
     Tone.Transport.bpm.value = bpm;
     const eid = Tone.Transport.scheduleRepeat(repeat, initialTempo);
     console.log(`eid: ${eid}`);
