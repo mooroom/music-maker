@@ -1,31 +1,17 @@
 import React, { useEffect, useRef, useState } from "react";
 import * as S from "./styles";
-import { Scale } from "@tonaljs/tonal";
 import { StyledComponent } from "styled-components";
 import { LayerType } from "../../store/layers/types";
 import { useDispatch } from "react-redux";
 import { updateSequence } from "../../store/layers";
-
-const C4_MAJOR = Scale.get("C4 major").notes;
-const C5_MAJOR = Scale.get("C5 major").notes;
-const C6_MAJOR = Scale.get("C6 major").notes;
-const notes = [...C4_MAJOR, ...C5_MAJOR, "C6"];
-
-const rows = notes.length;
-const cols = 32;
-
-const borderWidth = 2;
-const noteHeight = 30;
-
-const gridYLines = Array.from({ length: rows + 1 }, (_, i) => 30 * i);
-const gridXLines = Array.from({ length: cols + 1 });
+import Editor from "./Editor";
+import { ROWS, COLS } from "../../constants/grid";
 
 interface Props {
   layerData: LayerType;
 }
 
 export default function Layer({ layerData }: Props) {
-  const [gridXLines, setGridXLines] = useState<number[]>([]);
   const [colWidth, setColWidth] = useState(0);
 
   const layerRef = useRef<HTMLDivElement>(null);
@@ -34,13 +20,8 @@ export default function Layer({ layerData }: Props) {
     const layer = layerRef.current;
     if (layer) {
       const { width: layerWidth } = layer.getBoundingClientRect();
-      const colWidth = Math.max(20, (layerWidth - 60) / cols);
+      const colWidth = Math.max(20, (layerWidth - 60) / COLS);
       setColWidth(colWidth);
-      const newXLines = Array.from(
-        { length: cols + 1 },
-        (_, i) => colWidth * i + 60
-      );
-      setGridXLines(newXLines);
     }
   };
 
@@ -54,7 +35,7 @@ export default function Layer({ layerData }: Props) {
   const dispatch = useDispatch();
 
   const translateCoord = (xy: "x" | "y", coord: number, length: number) =>
-    Math.floor(coord / Math.floor(length / (xy === "x" ? cols : rows)));
+    Math.floor(coord / (length / (xy === "x" ? COLS : ROWS)));
 
   const handleMouseDown = (e: React.MouseEvent) => {
     const $target = e.target as HTMLDivElement;
@@ -126,61 +107,7 @@ export default function Layer({ layerData }: Props) {
         <S.OverviewBlock>
           <S.LayerTitle>레이어 {layerId}</S.LayerTitle>
         </S.OverviewBlock>
-        <S.EditorBlock height={452}>
-          <S.LaneContainer width={60} height={452}>
-            {notes.map((note, i) => (
-              <svg width="100%" height={30} x={0} y={30 * i}>
-                <rect width="100%" height={28} fill="#00ad82" x={0} y={2} />
-                <text
-                  x={30}
-                  y={20}
-                  fontSize={12}
-                  textAnchor="middle"
-                  fill="white"
-                >
-                  {note}
-                </text>
-              </svg>
-            ))}
-          </S.LaneContainer>
-          <S.GridContainer>
-            {gridYLines.map((v, i) => (
-              <rect
-                key={v + i}
-                fill="#eee"
-                width="100%"
-                height={borderWidth}
-                x={0}
-                y={v}
-              />
-            ))}
-            {gridXLines.map((v, i) => (
-              <rect
-                key={v + i}
-                fill="#eee"
-                width={borderWidth}
-                height="100%"
-                x={v}
-                y={0}
-              />
-            ))}
-          </S.GridContainer>
-          <S.LabelContainer></S.LabelContainer>
-          <g>
-            {sequence.map((rowData, rowIdx) =>
-              rowData.map((colData, colIdx) =>
-                colData ? (
-                  <NoteSvg
-                    key={`${rowIdx}${colIdx}`}
-                    coord={{ x: colIdx, y: rowIdx }}
-                    length={colData}
-                    noteWidth={colWidth}
-                  />
-                ) : null
-              )
-            )}
-          </g>
-        </S.EditorBlock>
+        <Editor colWidth={colWidth} sequence={sequence} />
         <S.MouseObserverBlock>
           <S.MouseObserver onMouseDown={handleMouseDown} />
         </S.MouseObserverBlock>
@@ -188,29 +115,3 @@ export default function Layer({ layerData }: Props) {
     </S.LayerBlock>
   );
 }
-
-interface NoteSvgProps {
-  coord: {
-    x: number;
-    y: number;
-  };
-  length: number;
-  noteWidth: number;
-}
-
-const NoteSvg = ({ coord, length, noteWidth }: NoteSvgProps) => {
-  const xPos = noteWidth * coord.x + 60;
-  const yPos = noteHeight * coord.y;
-
-  return (
-    <svg x={xPos} y={yPos}>
-      <rect
-        x={2}
-        y={2}
-        width={noteWidth * length - borderWidth}
-        height={noteHeight - borderWidth}
-        fill="#02f5b8"
-      />
-    </svg>
-  );
-};
