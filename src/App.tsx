@@ -30,8 +30,8 @@ function App() {
     settings,
     controls,
   } = useSelector((state: RootState) => state);
+
   const dispatch = useDispatch();
-  const [bpm, setBpm] = useState(120);
   const [eventId, setEventId] = useState<number | null>(null);
 
   const beatRef = useRef(0);
@@ -39,10 +39,12 @@ function App() {
   const sequencesRef = useRef<number[][][]>([]);
 
   useEffect(() => {
-    Tone.Transport.bpm.value = bpm;
-  }, [bpm]);
+    Tone.Transport.bpm.value = settings.bpm;
+  }, [settings]);
 
   useEffect(() => {
+    if (controls.started) onStop();
+
     const newSequences = layersState.layers.map((layer) => layer.sequence);
     sequencesRef.current = cloneDeep(newSequences);
   }, [layersState]);
@@ -64,8 +66,10 @@ function App() {
       for (const layer of layersState.layers) {
         const { instruments, sequence } = layer;
         instruments.forEach((instrument, index) => {
+          console.log(1);
           const currentSeq =
             sequencesRef.current[layer.id][index][beatRef.current];
+          console.log(2);
           if (currentSeq) {
             instrument.triggerAttackRelease(
               initialNotes[index],
@@ -79,7 +83,7 @@ function App() {
       beatRef.current = (beatRef.current + 1) % beatCount;
     }
 
-    Tone.Transport.bpm.value = bpm;
+    Tone.Transport.bpm.value = settings.bpm;
     const eid = Tone.Transport.scheduleRepeat(repeat, initialTempo);
     console.log(`eid: ${eid}`);
     setEventId(eid);
