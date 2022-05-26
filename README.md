@@ -1,3 +1,5 @@
+mutree(가칭)는 누구나 음악을 쉽게 만들 수 있게 도와주는 창작 어플리케이션입니다.
+
 # demo
 
 music-maker [mutree](https://music-maker-mutree.web.app/)
