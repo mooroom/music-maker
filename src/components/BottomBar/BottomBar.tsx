@@ -8,11 +8,12 @@ import { RootState } from "../../store";
 import { Range, getTrackBackground } from "react-range";
 import { setBpm } from "../../store/settings";
 import { SettingsState } from "../../store/settings/types";
+import { LayerType } from "../../store/layers/types";
 
 interface Props {
   onPlay: () => void;
   onStop: () => void;
-  onAddLayer: () => void;
+  onAddLayer: (type: LayerType["type"]) => void;
 }
 
 export default function BottomBar({ onPlay, onStop, onAddLayer }: Props) {
@@ -41,8 +42,15 @@ export default function BottomBar({ onPlay, onStop, onAddLayer }: Props) {
           <IoStop size={20} />
         </CircleButton>
         <CircleButton
-          onClick={onAddLayer}
+          onClick={() => onAddLayer("melody")}
           background={light}
+          style={{ marginLeft: 15 }}
+        >
+          <IoAddCircle size={20} />
+        </CircleButton>
+        <CircleButton
+          onClick={() => onAddLayer("beat")}
+          background={"grey"}
           style={{ marginLeft: 15 }}
         >
           <IoAddCircle size={20} />

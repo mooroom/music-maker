@@ -1,10 +1,10 @@
-import { Synth, SynthOptions } from "tone";
+import { Player, Synth, SynthOptions } from "tone";
 
 export interface LayerType {
   id: number;
   type: "melody" | "beat" | "chord";
   sequence: number[][];
-  instruments: Synth<SynthOptions>[];
+  instruments: Synth<SynthOptions>[] | Player[];
 }
 
 export interface LayersState {

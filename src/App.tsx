@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./App.css";
-import { Synth } from "tone";
+import { Player, Synth } from "tone";
 import * as Tone from "tone";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "./store";
@@ -13,8 +13,14 @@ import { setStart, setStop, togglePlay } from "./store/controls";
 import styled from "styled-components";
 import Layer from "./components/Layer";
 import { Scale } from "@tonaljs/tonal";
+import { createInstSeq } from "./utils";
 
-const noteCount = 15;
+const noteCount = {
+  melody: 15,
+  beat: 4,
+  chord: 15,
+};
+
 const beatCount = 32;
 
 const initialTempo = "8n";
@@ -49,14 +55,12 @@ function App() {
     sequencesRef.current = cloneDeep(newSequences);
   }, [layersState]);
 
-  const handleAddLayer = () => {
+  const handleAddLayer = (type: LayerType["type"]) => {
     const newLayer: LayerType = {
       id: LayerId.current++,
-      type: "melody",
-      sequence: Array(noteCount).fill(Array(beatCount).fill(0)),
-      instruments: Array.from({ length: 15 }, () =>
-        new Synth().toDestination()
-      ),
+      type,
+      sequence: Array(noteCount[type]).fill(Array(beatCount).fill(0)),
+      instruments: createInstSeq(type),
     };
     dispatch(addLayer(newLayer));
   };
@@ -64,18 +68,22 @@ function App() {
   const configLoop = () => {
     function repeat(time: number) {
       for (const layer of layersState.layers) {
-        const { instruments, sequence } = layer;
+        const { type, instruments, sequence } = layer;
         instruments.forEach((instrument, index) => {
           console.log(1);
           const currentSeq =
             sequencesRef.current[layer.id][index][beatRef.current];
           console.log(2);
           if (currentSeq) {
-            instrument.triggerAttackRelease(
-              initialNotes[index],
-              Tone.Time(initialTempo).toSeconds() * currentSeq,
-              time
-            );
+            if (type === "melody") {
+              (instrument as Synth).triggerAttackRelease(
+                initialNotes[index],
+                Tone.Time(initialTempo).toSeconds() * currentSeq,
+                time
+              );
+            } else if (type === "beat") {
+              (instrument as Player).start();
+            }
           }
         });
       }
