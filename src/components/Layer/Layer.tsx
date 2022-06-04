@@ -32,11 +32,11 @@ export default function Layer({ layerData }: Props) {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const { id: layerId, sequence } = layerData;
+  const { id: layerId, sequence, type: layerType } = layerData;
   const dispatch = useDispatch();
 
   const translateCoord = (xy: "x" | "y", coord: number, length: number) =>
-    Math.floor(coord / (length / (xy === "x" ? COLS : ROWS)));
+    Math.floor(coord / (length / (xy === "x" ? COLS : ROWS[layerType])));
 
   const handleMouseDown = (e: React.MouseEvent) => {
     const $target = e.target as HTMLDivElement;
@@ -107,7 +107,7 @@ export default function Layer({ layerData }: Props) {
       <S.WidgetContainer>
         <Header id={layerId} />
         <S.OverviewBlock></S.OverviewBlock>
-        <Editor colWidth={colWidth} sequence={sequence} />
+        <Editor layerType={layerType} colWidth={colWidth} sequence={sequence} />
         <S.MouseObserverBlock>
           <S.MouseObserver onMouseDown={handleMouseDown} />
         </S.MouseObserverBlock>

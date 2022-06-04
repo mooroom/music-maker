@@ -14,21 +14,9 @@ import styled from "styled-components";
 import Layer from "./components/Layer";
 import { Scale } from "@tonaljs/tonal";
 import { createInstSeq } from "./utils";
-
-const noteCount = {
-  melody: 15,
-  beat: 4,
-  chord: 15,
-};
-
-const beatCount = 32;
+import { COLS, NOTES_C_MAJOR, NOTE_COUNT } from "./constants/grid";
 
 const initialTempo = "8n";
-
-const C4_MAJOR = Scale.get("C4 major").notes;
-const C5_MAJOR = Scale.get("C5 major").notes;
-const C6_MAJOR = Scale.get("C6 major").notes;
-const initialNotes = [...C4_MAJOR, ...C5_MAJOR, "C6"];
 
 function App() {
   const {
@@ -59,7 +47,9 @@ function App() {
     const newLayer: LayerType = {
       id: LayerId.current++,
       type,
-      sequence: Array(noteCount[type]).fill(Array(beatCount).fill(0)),
+      sequence: Array.from({ length: NOTE_COUNT[type] }, () =>
+        new Array(COLS).fill(0)
+      ),
       instruments: createInstSeq(type),
     };
     dispatch(addLayer(newLayer));
@@ -70,14 +60,12 @@ function App() {
       for (const layer of layersState.layers) {
         const { type, instruments, sequence } = layer;
         instruments.forEach((instrument, index) => {
-          console.log(1);
           const currentSeq =
             sequencesRef.current[layer.id][index][beatRef.current];
-          console.log(2);
           if (currentSeq) {
             if (type === "melody") {
               (instrument as Synth).triggerAttackRelease(
-                initialNotes[index],
+                NOTES_C_MAJOR[index],
                 Tone.Time(initialTempo).toSeconds() * currentSeq,
                 time
               );
@@ -88,7 +76,7 @@ function App() {
         });
       }
 
-      beatRef.current = (beatRef.current + 1) % beatCount;
+      beatRef.current = (beatRef.current + 1) % COLS;
     }
 
     Tone.Transport.bpm.value = settings.bpm;

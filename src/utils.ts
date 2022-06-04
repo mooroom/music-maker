@@ -1,15 +1,14 @@
 import * as Tone from "tone";
+import { NOTES_BEAT } from "./constants/grid";
 import { LayerType } from "./store/layers/types";
 
 const BASE_URL = "/samplesound";
-
-const beats = ["kick", "clap", "hh_open", "hh_closed"];
 
 const createBeat = (inst: string) =>
   new Tone.Player(`${BASE_URL}/${inst}.wav`).toDestination();
 
 const createBeatSeq = () => {
-  return beats.map((inst) => createBeat(inst));
+  return NOTES_BEAT.map((inst) => createBeat(inst));
 };
 
 const creatSynthSeq = () => {
