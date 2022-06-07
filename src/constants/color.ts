@@ -6,7 +6,7 @@ export const yellow = "#FFD300";
 export const yellow_light = "#E2BB00";
 export const yellow_dark = "#806812";
 
-export const blue = "#17539A";
+export const blue = "#76E5FF";
 export const blue_light = "#37C2E3";
 export const blue_dark = "#17539A";
 
