@@ -14,7 +14,7 @@ import styled from "styled-components";
 import Layer from "./components/Layer";
 import { Scale } from "@tonaljs/tonal";
 import { createInstSeq } from "./utils";
-import { COLS, NOTES_C_MAJOR, NOTE_COUNT } from "./constants/grid";
+import { COLS, NOTE_NAMES, NOTE_COUNT } from "./constants/grid";
 
 const initialTempo = "8n";
 
@@ -65,7 +65,7 @@ function App() {
           if (currentSeq) {
             if (type === "melody") {
               (instrument as Synth).triggerAttackRelease(
-                NOTES_C_MAJOR[index],
+                NOTE_NAMES.melody[index],
                 Tone.Time(initialTempo).toSeconds() * currentSeq,
                 time
               );

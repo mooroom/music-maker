@@ -5,7 +5,7 @@ import {
   COLS,
   ROWS,
   NOTE_HEIGHT,
-  NOTES_C_MAJOR,
+  NOTE_NAMES,
   LABEL_WIDTH,
   BORDER_COLOR,
 } from "../../constants/grid";
@@ -54,8 +54,13 @@ export default function Editor({ layerType, colWidth, sequence }: Props) {
         ))}
       </S.GridContainer>
       <S.LabelContainer width={60} height={452}>
-        {NOTES_C_MAJOR.map((note, i) => (
-          <Label note={note} height={NOTE_HEIGHT[layerType]} index={i} />
+        {NOTE_NAMES[layerType].map((note, i) => (
+          <Label
+            key={note}
+            note={note}
+            height={NOTE_HEIGHT[layerType]}
+            index={i}
+          />
         ))}
       </S.LabelContainer>
       <g>
@@ -85,7 +90,7 @@ interface LabelProps {
 
 const Label = ({ note, height, index }: LabelProps) => {
   return (
-    <svg key={note} width="100%" height={height} x={0} y={height * index}>
+    <svg width="100%" height={height} x={0} y={height * index}>
       <rect
         width="100%"
         height={height - BORDER_WIDTH}
