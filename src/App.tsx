@@ -71,6 +71,12 @@ function App() {
               );
             } else if (type === "beat") {
               (instrument as Player).start();
+            } else if (type === "chord") {
+              (instrument as Synth).triggerAttackRelease(
+                NOTE_NAMES.chord[index],
+                Tone.Time(initialTempo).toSeconds() * currentSeq,
+                time
+              );
             }
           }
         });
