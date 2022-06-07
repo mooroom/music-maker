@@ -105,7 +105,7 @@ export default function Layer({ layerData }: Props) {
   return (
     <S.LayerBlock ref={layerRef}>
       <S.WidgetContainer>
-        <Header id={layerId} />
+        <Header id={layerId} layerType={layerType} />
         <S.OverviewBlock></S.OverviewBlock>
         <Editor layerType={layerType} colWidth={colWidth} sequence={sequence} />
         <S.MouseObserverBlock>

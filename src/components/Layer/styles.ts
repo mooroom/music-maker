@@ -2,6 +2,11 @@ import styled from "styled-components";
 import { GRID_COLOR } from "../../constants/grid";
 import { LayerTypeName } from "../../store/layers/types";
 
+const FlexWrapper = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
 export const RemoveButton = styled.div`
   display: flex;
   align-items: center;
@@ -35,18 +40,28 @@ export const WidgetContainer = styled.div`
 `;
 
 // Header
-export const LayerHeader = styled.div`
+
+export const LayerHeader = styled(FlexWrapper)`
   width: 100%;
-  display: flex;
-  align-items: center;
   justify-content: space-between;
   padding: 20px 10px;
 `;
 
+export const LayerHeaderLeft = styled(FlexWrapper)``;
+
 export const LayerTitle = styled.h1`
   font-size: 24px;
   font-weight: bold;
-  margin-right: 10px;
+  margin-right: 15px;
+`;
+
+export const LayerLabel = styled.div<{ layerType: LayerTypeName }>`
+  padding: 5px 8px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: bold;
+  color: ${(props) => GRID_COLOR[props.layerType].label};
+  background: white;
 `;
 
 export const LayerOptionContainer = styled.div``;
