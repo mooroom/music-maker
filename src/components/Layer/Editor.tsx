@@ -89,6 +89,8 @@ interface LabelProps {
 }
 
 const Label = ({ note, height, index }: LabelProps) => {
+  const FONT_SIZE = 12;
+
   return (
     <svg width="100%" height={height} x={0} y={height * index}>
       <rect
@@ -98,7 +100,15 @@ const Label = ({ note, height, index }: LabelProps) => {
         x={0}
         y={BORDER_WIDTH}
       />
-      <text x={30} y={20} fontSize={12} textAnchor="middle" fill="white">
+      <text
+        x="50%"
+        y="50%"
+        dominantBaseline="middle"
+        textAnchor="middle"
+        fill="white"
+        fontSize={FONT_SIZE}
+        style={{ transform: `translateY(${BORDER_WIDTH}px)` }}
+      >
         {note}
       </text>
     </svg>
