@@ -1,4 +1,16 @@
 import { Scale } from "@tonaljs/tonal";
+import { LayerTypeName } from "../store/layers/types";
+import {
+  blue,
+  blue_dark,
+  blue_light,
+  primary,
+  primary_dark,
+  primary_light,
+  yellow,
+  yellow_dark,
+  yellow_light,
+} from "./color";
 
 const GRID_HEIGHT = 450;
 
@@ -35,5 +47,33 @@ export const ROWS = {
 
 export const COLS = 32;
 
-// export const BORDER_COLOR = "#eee";
-export const BORDER_COLOR = "#000";
+export const BORDER_COLOR = "#eee";
+// export const BORDER_COLOR = "#000";
+
+interface GridColorType {
+  background: string;
+  label: string;
+  note: string;
+}
+
+export type GridColor = {
+  [key in LayerTypeName]: GridColorType;
+};
+
+export const GRID_COLOR: GridColor = {
+  beat: {
+    background: yellow_dark,
+    label: yellow_light,
+    note: yellow,
+  },
+  melody: {
+    background: primary_dark,
+    label: primary_light,
+    note: primary,
+  },
+  chord: {
+    background: blue_dark,
+    label: blue_light,
+    note: blue,
+  },
+};

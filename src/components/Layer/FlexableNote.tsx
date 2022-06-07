@@ -1,8 +1,8 @@
-import { NOTE_HEIGHT, BORDER_WIDTH } from "../../constants/grid";
-import { LayerType } from "../../store/layers/types";
+import { NOTE_HEIGHT, BORDER_WIDTH, GRID_COLOR } from "../../constants/grid";
+import { LayerTypeName } from "../../store/layers/types";
 
 interface Props {
-  layerType: LayerType["type"];
+  layerType: LayerTypeName;
   coord: {
     x: number;
     y: number;
@@ -27,7 +27,7 @@ export default function FlexableNote({
         y={BORDER_WIDTH}
         width={noteWidth * length - BORDER_WIDTH}
         height={NOTE_HEIGHT[layerType] - BORDER_WIDTH}
-        fill="#02f5b8"
+        fill={GRID_COLOR[layerType].note}
       />
     </svg>
   );

@@ -8,11 +8,13 @@ import {
   NOTE_NAMES,
   LABEL_WIDTH,
   BORDER_COLOR,
+  GRID_COLOR,
 } from "../../constants/grid";
-import { LayerType } from "../../store/layers/types";
+import { LayerTypeName } from "../../store/layers/types";
+import { primary_light } from "../../constants/color";
 
 interface Props {
-  layerType: LayerType["type"];
+  layerType: LayerTypeName;
   colWidth: number;
   sequence: number[][];
 }
@@ -29,7 +31,7 @@ export default function Editor({ layerType, colWidth, sequence }: Props) {
   );
 
   return (
-    <S.EditorBlock height={452}>
+    <S.EditorBlock height={452} layerType={layerType}>
       <S.LaneContainer></S.LaneContainer>
       <S.GridContainer>
         {gridYLines.map((v, i) => (
@@ -58,6 +60,7 @@ export default function Editor({ layerType, colWidth, sequence }: Props) {
           <Label
             key={note}
             note={note}
+            color={GRID_COLOR[layerType].label}
             height={NOTE_HEIGHT[layerType]}
             index={i}
           />
@@ -84,11 +87,12 @@ export default function Editor({ layerType, colWidth, sequence }: Props) {
 
 interface LabelProps {
   note: string;
+  color: string;
   height: number;
   index: number;
 }
 
-const Label = ({ note, height, index }: LabelProps) => {
+const Label = ({ note, color, height, index }: LabelProps) => {
   const FONT_SIZE = 12;
 
   return (
@@ -96,7 +100,7 @@ const Label = ({ note, height, index }: LabelProps) => {
       <rect
         width="100%"
         height={height - BORDER_WIDTH}
-        fill="#00ad82"
+        fill={color}
         x={0}
         y={BORDER_WIDTH}
       />

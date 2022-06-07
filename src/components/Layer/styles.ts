@@ -1,4 +1,6 @@
 import styled from "styled-components";
+import { GRID_COLOR } from "../../constants/grid";
+import { LayerTypeName } from "../../store/layers/types";
 
 export const RemoveButton = styled.div`
   display: flex;
@@ -51,8 +53,8 @@ export const LayerOptionContainer = styled.div``;
 
 export const OverviewBlock = styled.div``;
 
-export const EditorBlock = styled.svg`
-  background: #056950;
+export const EditorBlock = styled.svg<{ layerType: LayerTypeName }>`
+  background: ${(props) => GRID_COLOR[props.layerType].background};
 `;
 
 export const LaneContainer = styled.svg``;
