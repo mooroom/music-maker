@@ -10,4 +10,4 @@ export const blue = "#17539A";
 export const blue_light = "#37C2E3";
 export const blue_dark = "#17539A";
 
-export const light = "#F5F5F5";
+export const light = "#F0F0F0";

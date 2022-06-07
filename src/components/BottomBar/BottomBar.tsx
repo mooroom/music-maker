@@ -1,14 +1,22 @@
 import * as S from "./styles";
 import { FaPlay } from "react-icons/fa";
 import CircleButton from "../atoms/CircleButton";
-import { IoPlay, IoStop, IoPause, IoAddCircle } from "react-icons/io5";
-import { light, primary } from "../../constants/color";
+import {
+  light,
+  primary,
+  primary_dark,
+  primary_light,
+} from "../../constants/color";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { Range, getTrackBackground } from "react-range";
 import { setBpm } from "../../store/settings";
 import { SettingsState } from "../../store/settings/types";
 import { LayerType } from "../../store/layers/types";
+
+import { IoPlay, IoStop, IoPause, IoAddCircle, IoAdd } from "react-icons/io5";
+import { FaDrum, FaMusic } from "react-icons/fa";
+import { GRID_COLOR } from "../../constants/grid";
 
 interface Props {
   onPlay: () => void;
@@ -27,37 +35,47 @@ export default function BottomBar({ onPlay, onStop, onAddLayer }: Props) {
   return (
     <S.BottomBarBlock>
       <S.BottomBarContainer>
-        <CircleButton size="large" onClick={onPlay}>
-          {!controls.playing ? (
-            <IoPlay {...PlayIconProps} style={{ marginLeft: 2 }} />
-          ) : (
-            <IoPause {...PlayIconProps} />
-          )}
-        </CircleButton>
-        <CircleButton
-          onClick={onStop}
-          background={light}
-          style={{ marginLeft: 15 }}
-        >
-          <IoStop size={20} />
-        </CircleButton>
-        <CircleButton
-          onClick={() => onAddLayer("melody")}
-          background={light}
-          style={{ marginLeft: 15 }}
-        >
-          <IoAddCircle size={20} />
-        </CircleButton>
-        <CircleButton
-          onClick={() => onAddLayer("beat")}
-          background={"grey"}
-          style={{ marginLeft: 15 }}
-        >
-          <IoAddCircle size={20} />
-        </CircleButton>
-        <div style={{ width: 200, marginLeft: 50 }}>
-          <BpmRange settings={settings} />
-        </div>
+        <S.LeftWrapper>
+          <CircleButton size="large" onClick={onPlay}>
+            {!controls.playing ? (
+              <IoPlay {...PlayIconProps} style={{ marginLeft: 2 }} />
+            ) : (
+              <IoPause {...PlayIconProps} />
+            )}
+          </CircleButton>
+          <CircleButton
+            onClick={onStop}
+            background={light}
+            style={{ marginLeft: 15 }}
+          >
+            <IoStop size={20} />
+          </CircleButton>
+        </S.LeftWrapper>
+        <S.CenterWrapper>
+          <p style={{ fontWeight: "bold", color: primary_light }}>빠르기</p>
+          <div style={{ width: 200, marginLeft: 20 }}>
+            <BpmRange settings={settings} />
+          </div>
+        </S.CenterWrapper>
+        <S.RightWrapper>
+          <S.LayerAddContainer>
+            <IoAdd size={15} />
+            <CircleButton
+              onClick={() => onAddLayer("melody")}
+              background={GRID_COLOR["melody"].label}
+              style={{ marginLeft: 10 }}
+            >
+              <FaMusic size={20} />
+            </CircleButton>
+            <CircleButton
+              onClick={() => onAddLayer("beat")}
+              background={GRID_COLOR["beat"].label}
+              style={{ marginLeft: 10 }}
+            >
+              <FaDrum size={20} />
+            </CircleButton>
+          </S.LayerAddContainer>
+        </S.RightWrapper>
       </S.BottomBarContainer>
     </S.BottomBarBlock>
   );
