@@ -58,6 +58,13 @@ export default function BottomBar({ onPlay, onStop, onAddLayer }: Props) {
         <div style={{ width: 200, marginLeft: 50 }}>
           <BpmRange settings={settings} />
         </div>
+        <CircleButton
+          onClick={() => onAddLayer("beat")}
+          background={"grey"}
+          style={{ marginLeft: 15 }}
+        >
+          <IoAddCircle size={20} />
+        </CircleButton>
       </S.BottomBarContainer>
     </S.BottomBarBlock>
   );

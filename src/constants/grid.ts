@@ -8,7 +8,7 @@ const C5_MAJOR = Scale.get("C5 major").notes;
 export const NOTE_NAMES = {
   melody: [...C4_MAJOR, ...C5_MAJOR, "C6"],
   chord: [...C4_MAJOR, ...C5_MAJOR, "C6"],
-  beat: ["kick", "clap", "hh_open", "hh_closed"],
+  beat: ["kick", "clap", "open_h", "closed_h", "snare", "crash"],
 };
 
 export const NOTE_COUNT = {

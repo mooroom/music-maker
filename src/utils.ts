@@ -5,7 +5,7 @@ import { LayerType } from "./store/layers/types";
 const BASE_URL = "/samplesound";
 
 const createBeat = (inst: string) =>
-  new Tone.Player(`${BASE_URL}/${inst}.wav`).toDestination();
+  new Tone.Player(`${BASE_URL}/drum/${inst}.mp3`).toDestination();
 
 const createBeatSeq = () => {
   return NOTE_NAMES["beat"].map((inst) => createBeat(inst));
