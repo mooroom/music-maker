@@ -1,6 +1,7 @@
 import React, { ReactNode } from "react";
 import styled, { css } from "styled-components";
 import { primary } from "../../constants/color";
+import { darken, lighten } from "polished";
 
 interface Props extends ButtonStyleProps {
   children: ReactNode;
@@ -61,7 +62,16 @@ export const ButtonContainer = styled.button<ButtonStyleProps>`
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  background: ${(props) => props.background};
+
+  ${(props) => {
+    const bg = props.background;
+    return css`
+      background: ${bg};
+      &:hover {
+        background: ${darken(0.1, bg || primary)};
+      }
+    `;
+  }}
 
   ${sizeStyle}
 `;
