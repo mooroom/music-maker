@@ -57,6 +57,9 @@ function App() {
 
   const configLoop = () => {
     function repeat(time: number) {
+      console.log(time);
+      console.log(Tone.Transport.getSecondsAtTime(time));
+
       for (const layer of layersState.layers) {
         const { type, instruments, sequence } = layer;
         instruments.forEach((instrument, index) => {

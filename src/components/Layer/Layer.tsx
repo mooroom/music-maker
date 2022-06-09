@@ -21,6 +21,7 @@ export default function Layer({ layerData }: Props) {
     const layer = layerRef.current;
     if (layer) {
       const { width: layerWidth } = layer.getBoundingClientRect();
+      console.log(`width in layer: ${layerWidth}`);
       const colWidth = Math.max(20, (layerWidth - 60) / COLS);
       setColWidth(colWidth);
     }
@@ -112,6 +113,9 @@ export default function Layer({ layerData }: Props) {
           <S.MouseObserver onMouseDown={handleMouseDown} />
         </S.MouseObserverBlock>
       </S.WidgetContainer>
+      <S.Playhead
+        style={{ bottom: 0, height: 450, transform: "translateX(120px)" }}
+      />
     </S.LayerBlock>
   );
 }

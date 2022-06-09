@@ -91,3 +91,11 @@ export const MouseObserver = styled.div`
   width: 100%;
   height: 100%;
 `;
+
+export const Playhead = styled.div`
+  position: absolute;
+  left: 0;
+  background: white;
+  transition: opacity 0.2s;
+  width: 2px;
+`;

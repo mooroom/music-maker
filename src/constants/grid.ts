@@ -47,8 +47,8 @@ export const ROWS = {
 
 export const COLS = 32;
 
-export const BORDER_COLOR = "#eee";
-// export const BORDER_COLOR = "#000";
+// export const BORDER_COLOR = "#eee";
+export const BORDER_COLOR = "#000";
 
 interface GridColorType {
   background: string;
