@@ -3,7 +3,7 @@ import { SettingsState } from "./types";
 
 const initialState: SettingsState = {
   bpm: 120,
-  totalBeats: 8,
+  totalBeats: 32,
 };
 
 export const settingsSlice = createSlice({

@@ -14,7 +14,8 @@ import styled from "styled-components";
 import Layer from "./components/Layer";
 import { Scale } from "@tonaljs/tonal";
 import { createInstSeq } from "./utils";
-import { COLS, NOTE_NAMES, NOTE_COUNT } from "./constants/grid";
+import { COLS, NOTE_NAMES, NOTE_COUNT, LABEL_WIDTH } from "./constants/grid";
+import useElementWidth from "./hooks/useElementWidth";
 
 const initialTempo = "8n";
 
@@ -26,11 +27,38 @@ function App() {
   } = useSelector((state: RootState) => state);
 
   const dispatch = useDispatch();
-  const [eventId, setEventId] = useState<number | null>(null);
+  const [layerWrapperRef, layerWidth] = useElementWidth();
 
   const beatRef = useRef(0);
   const LayerId = useRef(0);
   const sequencesRef = useRef<number[][][]>([]);
+
+  const animationRef = useRef<number | null>(null);
+  const playheadRef = useRef<HTMLDivElement | null>(null);
+
+  // resize logic
+  const playHeadProgress = () => {
+    // W * (current_time / total_time)
+    const W = layerWidth - LABEL_WIDTH;
+
+    const xPos =
+      (W *
+        (Tone.Transport.getSecondsAtTime(Tone.now()) /
+          (Tone.Time(initialTempo).toSeconds() * COLS))) %
+      W;
+
+    if (playheadRef.current)
+      playheadRef.current.style.transform = `translateX(${
+        LABEL_WIDTH + xPos
+      }px)`;
+
+    // console.log("---");
+    // console.log(`x: ${xPos}`);
+    // console.log("--");
+
+    animationRef.current = requestAnimationFrame(playHeadProgress);
+  };
+  //
 
   useEffect(() => {
     Tone.Transport.bpm.value = settings.bpm;
@@ -57,9 +85,6 @@ function App() {
 
   const configLoop = () => {
     function repeat(time: number) {
-      console.log(time);
-      console.log(Tone.Transport.getSecondsAtTime(time));
-
       for (const layer of layersState.layers) {
         const { type, instruments, sequence } = layer;
         instruments.forEach((instrument, index) => {
@@ -89,9 +114,10 @@ function App() {
     }
 
     Tone.Transport.bpm.value = settings.bpm;
-    const eid = Tone.Transport.scheduleRepeat(repeat, initialTempo);
-    console.log(`eid: ${eid}`);
-    setEventId(eid);
+    Tone.Transport.scheduleRepeat(repeat, initialTempo);
+
+    animationRef.current = requestAnimationFrame(playHeadProgress);
+    console.log(animationRef.current);
   };
 
   const onPlay = () => {
@@ -105,9 +131,15 @@ function App() {
     if (controls.playing) {
       console.log("pause!");
       Tone.Transport.pause();
+
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
+        animationRef.current = null;
+      }
     } else {
       console.log("play!");
       Tone.Transport.start();
+      animationRef.current = requestAnimationFrame(playHeadProgress);
     }
 
     dispatch(togglePlay());
@@ -115,12 +147,18 @@ function App() {
 
   const onStop = () => {
     console.log("stop!");
-    Tone.Transport.stop();
-    if (eventId !== null) {
-      console.log(`clear: ${eventId}`);
-      Tone.Transport.clear(eventId);
+    if (animationRef.current) {
+      console.log(animationRef.current);
+      cancelAnimationFrame(animationRef.current);
+      animationRef.current = null;
     }
+
+    if (playheadRef.current)
+      playheadRef.current.style.transform = `translateX(${LABEL_WIDTH}px)`;
     beatRef.current = 0;
+
+    Tone.Transport.stop();
+
     dispatch(setStop());
   };
 
@@ -131,10 +169,19 @@ function App() {
         {!layersState.layers.length && (
           <EmptyMsg>레이어를 추가해주세요</EmptyMsg>
         )}
-
-        {layersState.layers.map((layer) => (
-          <Layer key={layer.id} layerData={layer} />
-        ))}
+        <LayerWrapper ref={layerWrapperRef}>
+          {layersState.layers.map((layer) => (
+            <Layer key={layer.id} layerData={layer} layerWidth={layerWidth}>
+              <Playhead
+                ref={playheadRef}
+                style={{
+                  bottom: 0,
+                  height: 450,
+                }}
+              />
+            </Layer>
+          ))}
+        </LayerWrapper>
       </Container>
 
       <BottomBar onPlay={onPlay} onStop={onStop} onAddLayer={handleAddLayer} />
@@ -163,4 +210,14 @@ const EmptyMsg = styled.div`
   align-items: center;
   font-size: 30px;
   color: #999;
+`;
+
+const LayerWrapper = styled.div``;
+
+const Playhead = styled.div`
+  position: absolute;
+  left: 0;
+  background: white;
+  transition: opacity 0.2s;
+  width: 2px;
 `;

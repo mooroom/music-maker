@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { ReactNode, useEffect, useRef, useState } from "react";
 import * as S from "./styles";
 import { StyledComponent } from "styled-components";
 import { LayerType } from "../../store/layers/types";
@@ -10,28 +10,12 @@ import Header from "./Header";
 
 interface Props {
   layerData: LayerType;
+  layerWidth: number;
+  children: ReactNode;
 }
 
-export default function Layer({ layerData }: Props) {
-  const [colWidth, setColWidth] = useState(0);
-
-  const layerRef = useRef<HTMLDivElement>(null);
-
-  const handleResize = () => {
-    const layer = layerRef.current;
-    if (layer) {
-      const { width: layerWidth } = layer.getBoundingClientRect();
-      console.log(`width in layer: ${layerWidth}`);
-      const colWidth = Math.max(20, (layerWidth - 60) / COLS);
-      setColWidth(colWidth);
-    }
-  };
-
-  useEffect(() => {
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+export default function Layer({ layerData, layerWidth, children }: Props) {
+  const colWidth = Math.max(20, (layerWidth - 60) / COLS);
 
   const { id: layerId, sequence, type: layerType } = layerData;
   const dispatch = useDispatch();
@@ -104,7 +88,7 @@ export default function Layer({ layerData }: Props) {
   };
 
   return (
-    <S.LayerBlock ref={layerRef}>
+    <S.LayerBlock>
       <S.WidgetContainer>
         <Header id={layerId} layerType={layerType} />
         <S.OverviewBlock></S.OverviewBlock>
@@ -113,9 +97,7 @@ export default function Layer({ layerData }: Props) {
           <S.MouseObserver onMouseDown={handleMouseDown} />
         </S.MouseObserverBlock>
       </S.WidgetContainer>
-      <S.Playhead
-        style={{ bottom: 0, height: 450, transform: "translateX(120px)" }}
-      />
+      {children}
     </S.LayerBlock>
   );
 }
