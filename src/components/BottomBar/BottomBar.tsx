@@ -10,15 +10,12 @@ import { SettingsState } from "../../store/settings/types";
 import { LayerType } from "../../store/layers/types";
 
 import { IoPlay, IoStop, IoPause, IoAdd } from "react-icons/io5";
-import { FaDrum, FaItunesNote } from "react-icons/fa";
 import { MdSpeed } from "react-icons/md";
-import { BsBullseye } from "react-icons/bs";
-import { GRID_COLOR } from "../../constants/grid";
 
 interface Props {
   onPlay: () => void;
   onStop: () => void;
-  onAddLayer: (type: LayerType["type"]) => void;
+  onAddLayer?: (type: LayerType["type"]) => void;
 }
 
 export default function BottomBar({ onPlay, onStop, onAddLayer }: Props) {
@@ -54,32 +51,6 @@ export default function BottomBar({ onPlay, onStop, onAddLayer }: Props) {
             <BpmRange settings={settings} />
           </div>
         </S.CenterWrapper>
-        <S.RightWrapper>
-          <S.LayerAddContainer>
-            <IoAdd size={15} />
-            <CircleButton
-              onClick={() => onAddLayer("melody")}
-              background="white"
-              style={{ marginLeft: 10 }}
-            >
-              <FaItunesNote size={20} fill={GRID_COLOR["melody"].label} />
-            </CircleButton>
-            <CircleButton
-              onClick={() => onAddLayer("beat")}
-              background="white"
-              style={{ marginLeft: 10 }}
-            >
-              <FaDrum size={20} fill={GRID_COLOR["beat"].label} />
-            </CircleButton>
-            <CircleButton
-              onClick={() => onAddLayer("chord")}
-              background="white"
-              style={{ marginLeft: 10 }}
-            >
-              <BsBullseye size={20} fill={GRID_COLOR["chord"].label} />
-            </CircleButton>
-          </S.LayerAddContainer>
-        </S.RightWrapper>
       </S.BottomBarContainer>
     </S.BottomBarBlock>
   );

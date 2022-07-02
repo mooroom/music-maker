@@ -30,14 +30,3 @@ const Wrapper = styled.div`
 export const LeftWrapper = styled(Wrapper)``;
 
 export const CenterWrapper = styled(Wrapper)``;
-
-export const RightWrapper = styled(Wrapper)``;
-
-export const LayerAddContainer = styled.div`
-  background: ${light};
-  padding: 10px;
-  display: flex;
-  align-items: center;
-  border-radius: 50px;
-  margin-left: 100px;
-`;

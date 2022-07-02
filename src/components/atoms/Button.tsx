@@ -7,7 +7,7 @@ type SizeKeys = "small" | "medium" | "large";
 
 const colorStyles = css<IButton>`
   ${({ theme, color }) => {
-    const selected = theme.palette[color];
+    const selected = theme.palette[color as ColorKeys];
     return css<IButton>`
       background: ${selected};
       &:hover {
@@ -48,8 +48,8 @@ const sizes = {
 
 const sizeStyles = css<IButton>`
   ${({ size }) => css`
-    height: ${sizes[size].height};
-    font-size: ${sizes[size].fontSize};
+    height: ${sizes[size as SizeKeys].height};
+    font-size: ${sizes[size as SizeKeys].fontSize};
   `}
 `;
 
@@ -69,6 +69,7 @@ const fullWidthStyle = css<IButton>`
 const StyledButton = styled.button<IButton>`
   /* 공통 스타일 */
   display: inline-flex;
+  align-items: center;
   outline: none;
   border: none;
   border-radius: 4px;
@@ -94,10 +95,11 @@ const StyledButton = styled.button<IButton>`
 
 interface IButton {
   children: React.ReactNode;
-  color: ColorKeys;
-  size: SizeKeys;
-  outline: boolean;
-  fullWidth: boolean;
+  color?: ColorKeys;
+  size?: SizeKeys;
+  outline?: boolean;
+  fullWidth?: boolean;
+  onClick: () => void;
 }
 
 function Button({
@@ -106,7 +108,7 @@ function Button({
   size,
   outline,
   fullWidth,
-  ...rest
+  onClick,
 }: IButton) {
   return (
     <StyledButton
@@ -114,7 +116,7 @@ function Button({
       size={size}
       outline={outline}
       fullWidth={fullWidth}
-      {...rest}
+      onClick={onClick}
     >
       {children}
     </StyledButton>

@@ -4,19 +4,16 @@ import { Player, Synth } from "tone";
 import * as Tone from "tone";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "./store";
-import { LayerType } from "./store/layers/types";
-import { addLayer } from "./store/layers";
+
 import { cloneDeep } from "lodash";
 import { setStart, setStop, togglePlay } from "./store/controls";
 import styled, { ThemeProvider } from "styled-components";
-import { Scale } from "@tonaljs/tonal";
-import { createInstSeq } from "./utils";
-import { COLS, NOTE_NAMES, NOTE_COUNT, LABEL_WIDTH } from "./constants/grid";
+
+import { COLS, NOTE_NAMES, LABEL_WIDTH } from "./constants/grid";
 import useElementWidth from "./hooks/useElementWidth";
 
 import TopBar from "./components/TopBar";
 import BottomBar from "./components/BottomBar";
-import Layer from "./components/Layer";
 import Palette from "./components/Palette";
 import { colorPalette } from "./constants/color";
 
@@ -33,7 +30,6 @@ function App() {
   const [layerWrapperRef, layerWidth] = useElementWidth();
 
   const beatRef = useRef(0);
-  const LayerId = useRef(0);
   const sequencesRef = useRef<number[][][]>([]);
 
   const animationRef = useRef<number | null>(null);
@@ -73,18 +69,6 @@ function App() {
     const newSequences = layersState.layers.map((layer) => layer.sequence);
     sequencesRef.current = cloneDeep(newSequences);
   }, [layersState]);
-
-  const handleAddLayer = (type: LayerType["type"]) => {
-    const newLayer: LayerType = {
-      id: LayerId.current++,
-      type,
-      sequence: Array.from({ length: NOTE_COUNT[type] }, () =>
-        new Array(COLS).fill(0)
-      ),
-      instruments: createInstSeq(type),
-    };
-    dispatch(addLayer(newLayer));
-  };
 
   const configLoop = () => {
     function repeat(time: number) {
@@ -192,11 +176,7 @@ function App() {
         </LayerWrapper>
       </Container> */}
         <Palette />
-        <BottomBar
-          onPlay={onPlay}
-          onStop={onStop}
-          onAddLayer={handleAddLayer}
-        />
+        <BottomBar onPlay={onPlay} onStop={onStop} />
       </div>
     </ThemeProvider>
   );

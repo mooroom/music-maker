@@ -1,5 +1,6 @@
 import ModalPortal from "../../ModalPortal";
 import * as S from "./styles";
+import { IoClose } from "react-icons/io5";
 
 interface IModal {
   children: React.ReactNode;
@@ -10,9 +11,13 @@ interface IModal {
 export default function Modal({ children, title, setModal }: IModal) {
   return (
     <ModalPortal>
-      <S.DarkBackground onClick={() => setModal(false)}>
+      <S.DarkBackground>
         <S.ModalBlock>
-          {title && <h3>{title}</h3>}
+          <S.Header>
+            {title && <h3>{title}</h3>}
+            <IoClose onClick={() => setModal(false)} />
+          </S.Header>
+
           {children}
         </S.ModalBlock>
       </S.DarkBackground>

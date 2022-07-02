@@ -14,7 +14,6 @@ export const DarkBackground = styled.div`
 
 export const ModalBlock = styled.div`
   width: 320px;
-  padding: 20px;
   background: white;
   border-radius: 5px;
   h3 {
@@ -24,4 +23,12 @@ export const ModalBlock = styled.div`
   p {
     font-size: 16px;
   }
+`;
+
+export const Header = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
 `;
