@@ -4,7 +4,7 @@ import { light } from "../../constants/color";
 export const Block = styled.div`
   position: absolute;
   left: 0;
-  top: 60px;
+  top: 120px;
   width: 250px;
   bottom: 0;
   background: #f5f5f5;
@@ -30,13 +30,4 @@ export const Layer = styled.div`
   & + & {
     border-top: none;
   }
-`;
-
-export const LayerAddContainer = styled.div`
-  background: ${light};
-  padding: 10px;
-  display: flex;
-  align-items: center;
-  border-radius: 50px;
-  margin-left: 100px;
 `;

@@ -16,6 +16,7 @@ import TopBar from "./components/TopBar";
 import BottomBar from "./components/BottomBar";
 import Palette from "./components/Palette";
 import { colorPalette } from "./constants/color";
+import Header from "./components/Header";
 
 const initialTempo = "8n";
 
@@ -157,6 +158,7 @@ function App() {
     >
       <div className="App">
         <TopBar />
+        <Header />
         {/* <Container>
         {!layersState.layers.length && (
           <EmptyMsg>레이어를 추가해주세요</EmptyMsg>
