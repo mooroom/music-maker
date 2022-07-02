@@ -11,3 +11,12 @@ export const blue_light = "#37C2E3";
 export const blue_dark = "#17539A";
 
 export const light = "#F0F0F0";
+
+export const colorPalette = {
+  primary,
+  blue,
+  gray: "#495057",
+  pink: "#f06595",
+};
+
+export type ColorKeys = keyof typeof colorPalette;
