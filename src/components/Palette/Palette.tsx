@@ -9,9 +9,12 @@ export default function Palette() {
 
   return (
     <S.Block>
-      {layers.layers.map((layer) => (
-        <S.Layer key={layer.id}>{layer.id}</S.Layer>
-      ))}
+      <S.TrackList>
+        {layers.layers.map((layer) => (
+          <S.Layer key={layer.id}>{layer.id}</S.Layer>
+        ))}
+      </S.TrackList>
+      <S.TrackLanes></S.TrackLanes>
     </S.Block>
   );
 }
