@@ -7,15 +7,17 @@ import { RootState } from "./store";
 import { LayerType } from "./store/layers/types";
 import { addLayer } from "./store/layers";
 import { cloneDeep } from "lodash";
-import TopBar from "./components/TopBar";
-import BottomBar from "./components/BottomBar";
 import { setStart, setStop, togglePlay } from "./store/controls";
 import styled from "styled-components";
-import Layer from "./components/Layer";
 import { Scale } from "@tonaljs/tonal";
 import { createInstSeq } from "./utils";
 import { COLS, NOTE_NAMES, NOTE_COUNT, LABEL_WIDTH } from "./constants/grid";
 import useElementWidth from "./hooks/useElementWidth";
+
+import TopBar from "./components/TopBar";
+import BottomBar from "./components/BottomBar";
+import Layer from "./components/Layer";
+import Palette from "./components/Palette";
 
 const initialTempo = "8n";
 
@@ -165,7 +167,7 @@ function App() {
   return (
     <div className="App">
       <TopBar />
-      <Container>
+      {/* <Container>
         {!layersState.layers.length && (
           <EmptyMsg>레이어를 추가해주세요</EmptyMsg>
         )}
@@ -182,8 +184,8 @@ function App() {
             </Layer>
           ))}
         </LayerWrapper>
-      </Container>
-
+      </Container> */}
+      <Palette />
       <BottomBar onPlay={onPlay} onStop={onStop} onAddLayer={handleAddLayer} />
     </div>
   );

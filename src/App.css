@@ -2,9 +2,9 @@
   /* margin: 0 auto;
   max-width: 1200px;
   overflow-x: scroll; */
-  display: flex;
+  /* display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: center; */
   height: 100vh;
   flex-direction: column;
   background: #eee;
