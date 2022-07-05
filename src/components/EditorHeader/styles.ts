@@ -1,10 +1,14 @@
-import styled from "styled-components";
+import styled from "styled-components/macro";
 import { primary } from "../../constants/color";
 
+export const HeaderContainer = styled.header`
+  display: flex;
+  flex-direction: column;
+  position: relative;
+`;
+
 export const TopBarBlock = styled.div`
-  position: absolute;
-  top: 0px;
-  left: 0px;
+  position: relative;
   width: 100%;
   height: 60px;
   background: ${primary};

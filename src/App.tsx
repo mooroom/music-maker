@@ -12,11 +12,12 @@ import styled, { ThemeProvider } from "styled-components";
 import { COLS, NOTE_NAMES, LABEL_WIDTH } from "./constants/grid";
 import useElementWidth from "./hooks/useElementWidth";
 
-import TopBar from "./components/TopBar";
 import BottomBar from "./components/BottomBar";
 import Palette from "./components/Palette";
 import { colorPalette } from "./constants/color";
 import Header from "./components/Header";
+import EditorBody from "./components/EditorBody";
+import Editor from "./components/Editor";
 
 const initialTempo = "8n";
 
@@ -157,27 +158,7 @@ function App() {
       }}
     >
       <div className="App">
-        <TopBar />
-        <Header />
-        {/* <Container>
-        {!layersState.layers.length && (
-          <EmptyMsg>레이어를 추가해주세요</EmptyMsg>
-        )}
-        <LayerWrapper ref={layerWrapperRef}>
-          {layersState.layers.map((layer) => (
-            <Layer key={layer.id} layerData={layer} layerWidth={layerWidth}>
-              <Playhead
-                ref={playheadRef}
-                style={{
-                  bottom: 0,
-                  height: 450,
-                }}
-              />
-            </Layer>
-          ))}
-        </LayerWrapper>
-      </Container> */}
-        <Palette />
+        <Editor />
         <BottomBar onPlay={onPlay} onStop={onStop} />
       </div>
     </ThemeProvider>
