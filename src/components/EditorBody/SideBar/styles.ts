@@ -3,7 +3,7 @@ import styled from "styled-components/macro";
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
-  width: 250px;
+  min-width: 250px;
 `;
 
 export const Header = styled.div`

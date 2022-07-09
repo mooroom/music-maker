@@ -7,10 +7,13 @@ export const Container = styled.div`
   will-change: scroll-position;
 `;
 
-export const Ruler = styled.div``;
+export const Ruler = styled.div`
+  width: 36000px;
+`;
 
 export const BlockTracks = styled.div`
   position: relative;
   overflow: hidden;
   will-change: scroll-position;
+  width: 36000px;
 `;
