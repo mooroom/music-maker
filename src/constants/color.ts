@@ -1,6 +1,7 @@
 export const primary = "#00dcb3";
 export const primary_light = "#00ad82";
-export const primary_dark = "#056950";
+export const primary_semi_dark = "#009F7F";
+export const primary_dark = "#005746";
 
 export const yellow = "#FFD300";
 export const yellow_light = "#E2BB00";

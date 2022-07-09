@@ -4,9 +4,9 @@ import Tracks from "./Tracks";
 
 export default function EditorBody() {
   return (
-    <S.Container>
+    <S.EditorBodyContainer>
       <SideBar />
       <Tracks />
-    </S.Container>
+    </S.EditorBodyContainer>
   );
 }

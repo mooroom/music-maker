@@ -124,7 +124,7 @@ function Button({
 }
 
 Button.defaultProps = {
-  color: "blue",
+  color: "primary",
   size: "medium",
 };
 

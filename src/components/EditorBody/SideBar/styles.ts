@@ -1,15 +1,16 @@
 import styled from "styled-components/macro";
 
-export const Container = styled.div`
+export const SiderBarContainer = styled.div`
   display: flex;
   flex-direction: column;
-  min-width: 250px;
+  min-width: 281px;
 `;
 
-export const Header = styled.div`
+export const SiderBarHeader = styled.div`
   display: flex;
   height: 40px;
-  padding: 10px;
+  padding: 0px 10px;
+  align-items: center;
 `;
 
 export const BlockHeaders = styled.div`

@@ -1,14 +1,11 @@
 import styled from "styled-components/macro";
+import { primary_dark } from "../../../constants/color";
 
-export const Container = styled.div`
+export const TracksContainer = styled.div`
   display: flex;
   flex-direction: column;
   overflow: hidden;
   will-change: scroll-position;
-`;
-
-export const Ruler = styled.div`
-  width: 36000px;
 `;
 
 export const BlockTracks = styled.div`
@@ -16,4 +13,5 @@ export const BlockTracks = styled.div`
   overflow: hidden;
   will-change: scroll-position;
   width: 36000px;
+  background-color: ${primary_dark};
 `;
