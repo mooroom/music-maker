@@ -24,7 +24,11 @@ export default function SideBar() {
           악기추가
         </Button>
       </S.SiderBarHeader>
-      <S.BlockHeaders></S.BlockHeaders>
+      <S.BlockHeaders>
+        {layers.layers.map((layer) => (
+          <S.BlockHeader>{layer.id}</S.BlockHeader>
+        ))}
+      </S.BlockHeaders>
       {modal && (
         <Modal title="악기추가" setModal={setModal}>
           <AddTrackModal />
