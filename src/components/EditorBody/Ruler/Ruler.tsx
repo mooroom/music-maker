@@ -1,3 +1,4 @@
+import { editor_ruler_text } from "../../../constants/color";
 import * as S from "./styles";
 
 const GRADUATIONS = Array.from({ length: 100 }, (_, i) => i * 80);
@@ -21,10 +22,34 @@ export default function Ruler() {
               height={40}
               patternUnits="userSpaceOnUse"
             >
-              <rect x={0} y={0} width={0.5} height={3000} fill="white" />
-              <rect x={20} y={30} width={0.5} height={3000} fill="white" />
-              <rect x={40} y={30} width={0.5} height={3000} fill="white" />
-              <rect x={60} y={30} width={0.5} height={3000} fill="white" />
+              <rect
+                x={0}
+                y={0}
+                width={0.5}
+                height={3000}
+                fill={editor_ruler_text}
+              />
+              <rect
+                x={20}
+                y={30}
+                width={0.5}
+                height={3000}
+                fill={editor_ruler_text}
+              />
+              <rect
+                x={40}
+                y={30}
+                width={0.5}
+                height={3000}
+                fill={editor_ruler_text}
+              />
+              <rect
+                x={60}
+                y={30}
+                width={0.5}
+                height={3000}
+                fill={editor_ruler_text}
+              />
             </pattern>
           </defs>
           <rect

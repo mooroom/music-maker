@@ -13,8 +13,14 @@ export const blue_dark = "#17539A";
 
 export const light = "#F0F0F0";
 
+export const editor_bg = "#F5F5F5";
+export const editor_ruler_bg = "#E6E6E6";
+export const editor_ruler_text = "#9B9B9B";
+
 export const colorPalette = {
   primary,
+  primary_dark,
+  primary_light,
   blue,
   gray: "#495057",
   pink: "#f06595",

@@ -72,7 +72,7 @@ const StyledButton = styled.button<IButton>`
   align-items: center;
   outline: none;
   border: none;
-  border-radius: 4px;
+  border-radius: ${(props) => (props.rounded ? "100px" : "4px")};
   color: white;
   font-weight: bold;
   cursor: pointer;
@@ -99,6 +99,7 @@ interface IButton {
   size?: SizeKeys;
   outline?: boolean;
   fullWidth?: boolean;
+  rounded?: boolean;
   onClick: () => void;
 }
 
@@ -108,6 +109,7 @@ function Button({
   size,
   outline,
   fullWidth,
+  rounded,
   onClick,
 }: IButton) {
   return (
@@ -117,6 +119,7 @@ function Button({
       outline={outline}
       fullWidth={fullWidth}
       onClick={onClick}
+      rounded={rounded}
     >
       {children}
     </StyledButton>

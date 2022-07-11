@@ -1,23 +1,27 @@
 import styled from "styled-components/macro";
-import { primary_dark, primary_semi_dark } from "../../../constants/color";
+import {
+  editor_bg,
+  editor_ruler_bg,
+  editor_ruler_text,
+} from "../../../constants/color";
 
 export const RulerContainer = styled.div`
   width: 36000px;
-  background-color: ${primary_semi_dark};
+  background-color: ${editor_ruler_bg};
 `;
 
 export const RulerWrapper = styled.div`
   border-bottom: 1px solid black;
   margin-left: 12px;
   min-height: 40px;
-  border-bottom: 1px solid ${primary_dark};
+  border-bottom: 1px solid ${editor_bg};
   min-width: calc(100vw - 293px);
   position: relative;
   width: 36000px;
 `;
 
 export const RulerGraduation = styled.div`
-  color: ghostwhite;
+  color: ${editor_ruler_text};
   height: 20px;
   overflow: hidden;
   position: absolute;
