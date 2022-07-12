@@ -3,6 +3,7 @@ import {
   editor_bg,
   editor_ruler_bg,
   editor_ruler_text,
+  editor_stroke,
 } from "../../../constants/color";
 
 export const RulerContainer = styled.div`
@@ -12,10 +13,9 @@ export const RulerContainer = styled.div`
 
 export const RulerWrapper = styled.div`
   border-bottom: 1px solid black;
-  margin-left: 12px;
   min-height: 40px;
-  border-bottom: 1px solid ${editor_bg};
-  min-width: calc(100vw - 293px);
+  border-bottom: 1px solid ${editor_stroke};
+  min-width: calc(100vw - 281px);
   position: relative;
   width: 36000px;
 `;
