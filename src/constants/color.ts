@@ -18,14 +18,15 @@ export const editor_stroke = "#D2D2D2";
 export const editor_ruler_bg = "#E6E6E6";
 export const editor_ruler_text = "#9B9B9B";
 
+export const gray = "#E6E6E6";
+export const gray_text = "#909090";
+
 export const colorPalette = {
   primary,
   primary_dark,
   primary_semi_dark,
   primary_light,
-  blue,
-  gray: "#495057",
-  pink: "#f06595",
+  gray,
 };
 
 export type ColorKeys = keyof typeof colorPalette;

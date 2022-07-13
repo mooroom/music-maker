@@ -105,24 +105,16 @@ const BpmRange = ({ settings }: RangeProps) => {
           {...props}
           style={{
             ...props.style,
-            height: "42px",
-            width: "42px",
-            borderRadius: "4px",
+            height: "30px",
+            width: "30px",
+            borderRadius: "50%",
             backgroundColor: "#FFF",
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
             boxShadow: "0px 2px 6px #AAA",
           }}
-        >
-          <div
-            style={{
-              height: "16px",
-              width: "5px",
-              backgroundColor: isDragged ? primary : "#CCC",
-            }}
-          />
-        </div>
+        />
       )}
     />
   );

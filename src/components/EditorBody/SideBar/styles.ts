@@ -13,7 +13,7 @@ export const SiderBarContainer = styled.div`
 
 export const SiderBarHeader = styled.div`
   display: flex;
-  height: 40px;
+  min-height: 40px;
   padding: 0px 10px;
   align-items: center;
   border-bottom: 1px solid ${editor_stroke};

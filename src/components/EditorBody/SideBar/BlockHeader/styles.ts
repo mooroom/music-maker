@@ -77,3 +77,8 @@ export const NameRow = styled.div`
   justify-content: space-between;
   align-items: flex-start;
 `;
+
+export const CtrlRow = styled.div`
+  display: flex;
+  padding-top: 12px;
+`;
