@@ -25,11 +25,3 @@ export const BlockHeaders = styled.div`
   flex-grow: 1;
   border-right: 1px solid ${editor_stroke};
 `;
-
-export const BlockHeader = styled.div`
-  display: flex;
-  min-height: 80px;
-  position: relative;
-  border-bottom: 1px solid ${editor_stroke};
-  background-color: ${editor_bg};
-`;

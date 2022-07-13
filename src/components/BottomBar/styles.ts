@@ -6,11 +6,10 @@ export const BottomBarBlock = styled.div`
   position: absolute;
   bottom: 0;
   right: 0;
-  width: calc(100% - 20px);
+  width: 100%;
   height: 80px;
   border-top: 1px solid ghostwhite;
   background: white;
-  border-radius: 100px 0 0 100px;
 `;
 
 export const BottomBarContainer = styled.div`

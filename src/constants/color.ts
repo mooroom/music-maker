@@ -1,5 +1,5 @@
-export const primary = "#00dcb3";
-export const primary_light = "#00ad82";
+export const primary = "#00C799";
+export const primary_light = "#E1F8F3";
 export const primary_semi_dark = "#009F7F";
 export const primary_dark = "#005746";
 
@@ -21,6 +21,7 @@ export const editor_ruler_text = "#9B9B9B";
 export const colorPalette = {
   primary,
   primary_dark,
+  primary_semi_dark,
   primary_light,
   blue,
   gray: "#495057",

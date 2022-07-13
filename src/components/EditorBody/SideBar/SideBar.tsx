@@ -19,7 +19,7 @@ export default function SideBar() {
       <S.SiderBarHeader>
         <Button
           onClick={() => setModal(true)}
-          color="primary_light"
+          color="primary_semi_dark"
           size="small"
           rounded
         >
