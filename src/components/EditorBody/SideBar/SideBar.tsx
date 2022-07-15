@@ -7,12 +7,13 @@ import Modal from "../../Modal";
 import AddTrackModal from "./AddTrackModal";
 import { useState } from "react";
 import BlockHeader from "./BlockHeader";
+import { selectLayer } from "../../../store/layers";
 
 export default function SideBar() {
+  const dispatch = useDispatch();
   const { layers } = useSelector((state: RootState) => state);
 
   const [modal, setModal] = useState(false);
-  const [selected, setSelected] = useState<number | null>(null);
 
   return (
     <S.SiderBarContainer>
@@ -31,8 +32,8 @@ export default function SideBar() {
           <BlockHeader
             key={layer.id}
             layer={layer}
-            isSelected={layer.id === selected}
-            onSelect={() => setSelected(layer.id)}
+            isSelected={layer.id === layers.selectedLayer?.id}
+            onSelect={() => dispatch(selectLayer(layer.id))}
           />
         ))}
       </S.BlockHeaders>

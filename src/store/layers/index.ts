@@ -3,6 +3,7 @@ import { LayerType, LayersState, UpdateSequencePayload } from "./types";
 
 const initialState: LayersState = {
   layers: [],
+  selectedLayer: null,
 };
 
 export const layersSlice = createSlice({
@@ -22,7 +23,12 @@ export const layersSlice = createSlice({
       const layer = state.layers.find((layer) => layer.id === layerId);
       if (layer) layer.sequence = newSequence;
     },
+    selectLayer: (state, action: PayloadAction<number>) => {
+      const selected = state.layers.find((v) => v.id === action.payload);
+      if (selected) state.selectedLayer = selected;
+    },
   },
 });
 
-export const { addLayer, removeLayer, updateSequence } = layersSlice.actions;
+export const { addLayer, removeLayer, updateSequence, selectLayer } =
+  layersSlice.actions;

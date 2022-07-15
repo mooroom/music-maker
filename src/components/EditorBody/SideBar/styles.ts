@@ -8,7 +8,7 @@ import {
 export const SiderBarContainer = styled.div`
   display: flex;
   flex-direction: column;
-  min-width: 281px;
+  min-width: 280px;
 `;
 
 export const SiderBarHeader = styled.div`

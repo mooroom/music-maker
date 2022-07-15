@@ -11,6 +11,7 @@ export interface LayerType {
 
 export interface LayersState {
   layers: LayerType[];
+  selectedLayer: LayerType | null;
 }
 
 export interface UpdateSequencePayload {
