@@ -30,3 +30,5 @@ export const colorPalette = {
 };
 
 export type ColorKeys = keyof typeof colorPalette;
+
+export const track_height = 80;

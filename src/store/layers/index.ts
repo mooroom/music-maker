@@ -27,8 +27,16 @@ export const layersSlice = createSlice({
       const selected = state.layers.find((v) => v.id === action.payload);
       if (selected) state.selectedLayer = selected;
     },
+    unSelectLayer: (state) => {
+      state.selectedLayer = null;
+    },
   },
 });
 
-export const { addLayer, removeLayer, updateSequence, selectLayer } =
-  layersSlice.actions;
+export const {
+  addLayer,
+  removeLayer,
+  updateSequence,
+  selectLayer,
+  unSelectLayer,
+} = layersSlice.actions;

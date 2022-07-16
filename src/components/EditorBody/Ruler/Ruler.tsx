@@ -9,7 +9,9 @@ export default function Ruler() {
       <S.RulerWrapper>
         <S.RulerGraduation>
           {GRADUATIONS.map((v, i) => (
-            <span style={{ left: `${v}px` }}>{i + 1}</span>
+            <span key={i} style={{ left: `${v}px` }}>
+              {i + 1}
+            </span>
           ))}
         </S.RulerGraduation>
         <S.RulerGrid>
