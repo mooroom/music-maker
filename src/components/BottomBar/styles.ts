@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { GoPlay } from "react-icons/go";
 import { light, primary } from "../../constants/color";
+import { z_bottomBar } from "../../constants/zIndex";
 
 export const BottomBarBlock = styled.div`
   position: absolute;
@@ -10,6 +11,7 @@ export const BottomBarBlock = styled.div`
   height: 80px;
   border-top: 1px solid ghostwhite;
   background: white;
+  z-index: ${z_bottomBar};
 `;
 
 export const BottomBarContainer = styled.div`

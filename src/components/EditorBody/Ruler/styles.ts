@@ -4,7 +4,9 @@ import {
   editor_ruler_bg,
   editor_ruler_text,
   editor_stroke,
+  primary,
 } from "../../../constants/color";
+import { z_playHead } from "../../../constants/zIndex";
 
 export const RulerContainer = styled.div`
   width: 36000px;
@@ -44,4 +46,45 @@ export const RulerGrid = styled.svg`
   left: 0;
   width: 100%;
   height: 40px;
+`;
+
+export const RulerCursorContainer = styled.div`
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 20px;
+  cursor: default;
+`;
+
+export const PlayHead = styled.span`
+  cursor: col-resize;
+  display: inline-block;
+  width: 15px;
+  height: 1200px;
+  position: absolute;
+  left: 20px;
+  top: 20px;
+  will-change: transform;
+  z-index: ${z_playHead};
+
+  svg {
+    position: absolute;
+    top: -6px;
+    left: calc(50% - 3px);
+    width: 6px;
+    height: 6px;
+    fill: ${primary};
+  }
+
+  &:after {
+    background-color: ${primary};
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0, 1);
+    content: "";
+    display: inline-block;
+    height: 100%;
+    margin-left: 7px;
+    margin-top: -1px;
+    width: 1px;
+  }
 `;

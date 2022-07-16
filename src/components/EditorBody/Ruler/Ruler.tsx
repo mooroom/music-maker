@@ -14,6 +14,13 @@ export default function Ruler() {
             </span>
           ))}
         </S.RulerGraduation>
+        <S.RulerCursorContainer>
+          <S.PlayHead>
+            <svg>
+              <circle cx="50%" cy="50%" r="50%" />
+            </svg>
+          </S.PlayHead>
+        </S.RulerCursorContainer>
         <S.RulerGrid>
           <defs>
             <pattern
